@@ -21,17 +21,20 @@
 :root{
   --paper:#F6F7F5; --ink:#1B1F24; --muted:#6E7681; --rule:#DFE3E0;
   --blue:#2F5D8C; --blue-deep:#1E3D5C; --blue-wash:#E8EEF5;
-  --red:#9B2F2A; --supplied:#8A8F96; --here-wash:#FBEDEB; --on-accent:#fff; --scale:1;
+  --red:#9B2F2A; --supplied:#8A8F96; --here-wash:#FBEDEB; --on-accent:#fff;
+  --toast-bg:#1E3D5C; --scale:1;
 }
 html[data-theme="night"]{
   --paper:#12161A; --ink:#DFE4E8; --muted:#8A939C; --rule:#242B32;
   --blue:#7FA8D4; --blue-deep:#0C1116; --blue-wash:#1A222B;
   --red:#D98078; --supplied:#7C858E; --here-wash:#2E1D1B; --on-accent:#0E1216;
+  --toast-bg:#243040;
 }
 html[data-theme="night"][data-dim="1"]{
   --paper:#141210; --ink:#D8CFC0; --muted:#8C857A; --rule:#2A2622;
   --blue:#A9BCC9; --blue-deep:#0E0C0A; --blue-wash:#211D18;
   --red:#D9A08C; --supplied:#867F73; --here-wash:#2C1F1A; --on-accent:#100E0C;
+  --toast-bg:#2A241E;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:var(--paper);color:var(--ink)}
@@ -175,6 +178,7 @@ nav.turn button:disabled{opacity:.35;cursor:default}
 .sheet .bar h2{margin:0;font-size:15px;font-weight:600;flex:1}
 .sheet .body{flex:1;overflow-y:auto;padding:12px 14px 40px;-webkit-overflow-scrolling:touch}
 .sheet .body>*{max-width:44rem;margin-inline:auto;width:100%}
+.sheet .body>button,.sheet .body>details{display:block}
 .sheet .bar>h2{max-width:44rem;margin-inline:auto;width:100%}
 .sheet .bar{max-width:100%}
 .here{display:flex;align-items:center;gap:8px;margin:0 0 10px;padding:9px 12px;
@@ -233,7 +237,9 @@ html[data-theme="night"] .hrow .act button.danger{background:#3A1F1D;color:#E39A
 .sortRow button{flex:1;padding:7px;border-radius:8px;background:var(--blue-wash);
   color:var(--ink);font-size:12.5px}
 .sortRow button[aria-pressed="true"]{background:var(--blue);color:var(--on-accent);font-weight:600}
-input[type=search]{width:100%;padding:10px 12px;border-radius:9px;border:1px solid var(--rule);
+input[type=search],input[type=text],textarea,select{
+  display:block;width:100%;max-width:44rem;margin-inline:auto}
+input[type=search]{padding:10px 12px;border-radius:9px;border:1px solid var(--rule);
   background:var(--paper);color:var(--ink);font-size:15px}
 .hit{padding:10px 2px;border-bottom:1px solid var(--rule);cursor:pointer}
 .hit b{color:var(--blue);font-size:12px;display:block;margin-bottom:2px}
@@ -356,10 +362,15 @@ details.share[open] summary::after{transform:rotate(180deg)}
 #act .btns{display:flex;gap:8px}
 #act .btns button{flex:1;padding:11px;border-radius:9px;background:var(--blue-wash);
   color:var(--blue);font-size:14px;font-weight:500}
-#toast{position:fixed;left:50%;bottom:76px;transform:translateX(-50%);z-index:80;
-  background:var(--blue-deep);color:#fff;padding:9px 15px;border-radius:20px;font-size:13px;
+/* Sits at the top: the foot of every sheet holds tools, and a toast landing on
+   them covers the control the reader is reaching for. */
+#toast{position:fixed;left:0;right:0;margin-inline:auto;width:fit-content;
+  top:calc(64px + env(safe-area-inset-top));z-index:130;
+  background:var(--toast-bg);color:#fff;padding:10px 16px;border-radius:20px;font-size:13.5px;
   opacity:0;pointer-events:none;transition:opacity .22s;display:flex;align-items:center;
-  gap:12px;max-width:calc(100vw - 32px)}
+  gap:12px;max-width:calc(100vw - 32px);box-shadow:0 6px 24px rgba(0,0,0,.35);
+  transform:translateY(-6px);transition:opacity .22s,transform .22s}
+#toast.show{transform:translateY(0)}
 #toast.show{opacity:1}
 #toast.act{pointer-events:auto}
 #toast button{background:rgba(255,255,255,.16);color:#fff;font-size:13px;font-weight:600;
@@ -402,7 +413,7 @@ details.share[open] summary::after{transform:rotate(180deg)}
   <div class="bar"><h2 id="vsRef">Шүлэг</h2><button class="icon" data-close>✕</button></div>
   <div class="body">
     <p id="vsText" style="font-family:Georgia,serif;font-size:15px;line-height:1.6;
-      margin:0 0 14px"></p>
+      margin:0 auto 14px"></p>
     <div style="font-size:13px;font-weight:600;margin-bottom:4px">Өнгө</div>
     <div class="swatches" id="vsSwatches">
       <button class="sw0" data-col="0" aria-pressed="true">Байхгүй</button>
@@ -419,9 +430,9 @@ details.share[open] summary::after{transform:rotate(180deg)}
     </div>
     <div class="row"><span>🔖 Тэмдэглэл</span>
       <div class="seg"><button id="vsBm">Нэмэх</button></div></div>
-    <div style="font-size:13px;font-weight:600;margin:14px 0 4px">Тэмдэглэсэн зүйл</div>
+    <div style="font-size:13px;font-weight:600;margin:14px auto 4px">Тэмдэглэсэн зүйл</div>
     <textarea id="vsNote" placeholder="Энд бичнэ үү…"></textarea>
-    <div style="font-size:13px;font-weight:600;margin:14px 0 4px">Шошго (таслалаар)</div>
+    <div style="font-size:13px;font-weight:600;margin:14px auto 4px">Шошго (таслалаар)</div>
     <input type="text" id="vsTags" placeholder="жишээ: цэг таслал, нэр" autocomplete="off"
       style="width:100%;padding:10px 12px;border-radius:9px;border:1px solid var(--rule);
       background:var(--paper);color:var(--ink);font-size:14px">
@@ -510,7 +521,7 @@ details.share[open] summary::after{transform:rotate(180deg)}
       autocomplete="off">
     <div class="chips" id="mkKind"></div>
     <div class="chips" id="mkTags"></div>
-    <div id="mkCount" style="font-size:12px;color:var(--muted);margin:6px 0"></div>
+    <div id="mkCount" style="font-size:12px;color:var(--muted);margin:6px auto"></div>
     <div id="marks"></div>
     <div class="tools" id="mkToolbar">
       <button id="mkCopyTxt">📋 Бичвэрээр хуулах</button>
@@ -563,7 +574,7 @@ details.share[open] summary::after{transform:rotate(180deg)}
       <div class="dl" id="stBar"><i id="stFill"></i></div>
     </div>
 
-    <p style="margin:18px 0 6px;font-size:13px;font-weight:600">Хувилбарын мэдээлэл</p>
+    <p style="margin:18px auto 6px;font-size:13px;font-weight:600">Хувилбарын мэдээлэл</p>
     <div class="stamp" id="stamp"></div>
     <button id="copyStamp" style="margin-top:10px;padding:9px 13px;border-radius:8px;
       background:var(--blue-wash);color:var(--blue);font-size:13px">Мэдээллийг хуулах</button>
@@ -1016,7 +1027,7 @@ function buildInstall(){
     '<button data-it="'+g[0]+'" aria-pressed="'+(instTab===g[0])+'">'+esc(g[1])
     +"</button>").join("");
   const g=INSTALL.find(x=>x[0]===instTab)||INSTALL[0];
-  body.innerHTML=g[2]+'<hr style="border:0;border-top:1px solid var(--rule);margin:16px 0">'
+  body.innerHTML=g[2]+'<hr style="border:0;border-top:1px solid var(--rule);margin:16px auto">'
     +g[3];
 }
 function installPlainText(){

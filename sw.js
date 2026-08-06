@@ -6,7 +6,7 @@
      DATA  — keyed by the scripture filename, replaced ONLY when the text changes
    A UI fix therefore costs a small download; the 1.66 MB Bible is refetched only
    when the text itself has actually been corrected. */
-const SHELL_CACHE = "mnbible-shell-20260806-1531";
+const SHELL_CACHE = "mnbible-shell-20260806-1552";
 const DATA_CACHE  = "mnbible-text-v1.0.1";
 const SHELL_ASSETS = [
   "./",
