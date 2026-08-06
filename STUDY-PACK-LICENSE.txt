@@ -1,0 +1,72 @@
+STUDY PACK  (data/study.bin)  —  LICENSING AND ATTRIBUTION
+
+This file is kept as a separate, optional download and is NOT merged with the
+Mongolian Bible text. It combines two independently licensed works.
+
+--------------------------------------------------------------------------
+1. STRONG'S HEBREW AND GREEK DICTIONARIES
+
+    A Concise Dictionary of the Words in the Hebrew Bible (1894)
+    Dictionary of Greek Words, from Strong's Exhaustive Concordance (1890)
+    by James Strong, S.T.D., LL.D.  —  public domain.
+
+    Greek XML e-text version prepared in 2006 by Ulrik Petersen
+    (http://ulrikp.org) from the ASCII e-text.
+
+    Hebrew data assembled from several public-domain sources and corrected
+    against the originals by David Instone-Brewer (www.2LetterLookup.com).
+    Editing, corrections and Unicode transliterations by David Troidl.
+
+    JSON edition: Copyright Open Scriptures, 2009 and 2010.  CC BY-SA.
+    https://github.com/openscriptures/strongs
+
+    Attribution is displayed in the app under Settings and must remain.
+
+--------------------------------------------------------------------------
+2. WORD-LEVEL STRONG'S TAGGING OF THE KJV
+
+    Extracted from the KJV SWORD module, version 3.1,
+    "King James Version (1769) with Strongs Numbers and Morphology".
+    Source: https://gitlab.com/crosswire-bible-society/kjv
+
+    The module's configuration declares:   DistributionLicense=GPL
+
+    The module's own About text states:
+
+        "Any copyright that might be obtained for this effort is held by
+         CrossWire Bible Society (c) 2003-2023 and CrossWire Bible Society
+         hereby grants a general public license to use this text for any
+         purpose. ... It is in this spirit that we in turn offer the KJV2003
+         Project text freely for any purpose."
+
+    Old Testament Strong's data keyed by the volunteers of
+        The Bible Foundation (bf.org).
+    New Testament Strong's data synchronised to the Stephanas Textus
+        Receptus by the volunteers of Project KJV2003, CrossWire.
+    Greek base text with Strong's numbers and morphology provided by
+        Dr. Maurice Robinson.
+    Formatting markup contributed by Michael Paul Johnson (ebible.org).
+
+    The module's About text records that this work depended on "the time
+    and generosity" of "so many individuals" who contributed it for the
+    free use of the Body of Christ.  Every name above is credited in the
+    application itself, under Settings, in Mongolian and in English.
+
+    NOTE ON THE BASE TEXT: the module states that "the rights to the base
+    text are held by the Crown of England". King James Version text remains
+    under perpetual Crown copyright in the United Kingdom, administered
+    through Cambridge University Press. This does not restrict use in
+    Mongolia or Malaysia, but is recorded here for completeness.
+
+--------------------------------------------------------------------------
+3. WHY THIS FILE IS SEPARATE
+
+The GPL label on the KJV module is why this data is shipped as its own
+optional file with this notice, rather than being merged into the Mongolian
+Bible data. The Mongolian text is the copyright of the Mongolian Bible
+translation team and is not affected by, and does not fall under, the
+licence of this study pack.
+
+If certainty is required before wider distribution, write to
+modules@crosswire.org — the module configuration explicitly invites
+inquiries, and CrossWire can confirm the intended terms in writing.
