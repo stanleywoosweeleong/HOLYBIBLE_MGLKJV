@@ -1,0 +1,2188 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ариун Библи</title>
+<meta name="description" content="Монгол Библи — офлайн уншигч">
+<meta name="theme-color" content="#1E3D5C">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ариун Библи">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/apple-touch-icon-152.png">
+<link rel="apple-touch-icon" sizes="167x167" href="icons/apple-touch-icon-167.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<style>
+:root{
+  --paper:#F6F7F5; --ink:#1B1F24; --muted:#6E7681; --rule:#DFE3E0;
+  --blue:#2F5D8C; --blue-deep:#1E3D5C; --blue-wash:#E8EEF5;
+  --red:#9B2F2A; --supplied:#8A8F96; --here-wash:#FBEDEB; --on-accent:#fff;
+  --toast-bg:#1E3D5C; --scale:1;
+}
+html[data-theme="night"]{
+  --paper:#12161A; --ink:#DFE4E8; --muted:#8A939C; --rule:#242B32;
+  --blue:#7FA8D4; --blue-deep:#0C1116; --blue-wash:#1A222B;
+  --red:#D98078; --supplied:#7C858E; --here-wash:#2E1D1B; --on-accent:#0E1216;
+  --toast-bg:#243040;
+}
+html[data-theme="night"][data-dim="1"]{
+  --paper:#141210; --ink:#D8CFC0; --muted:#8C857A; --rule:#2A2622;
+  --blue:#A9BCC9; --blue-deep:#0E0C0A; --blue-wash:#211D18;
+  --red:#D9A08C; --supplied:#867F73; --here-wash:#2C1F1A; --on-accent:#100E0C;
+  --toast-bg:#2A241E;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--paper);color:var(--ink)}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+     -webkit-text-size-adjust:100%;overscroll-behavior-y:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+header{position:sticky;top:0;z-index:30;background:var(--blue-deep);color:#fff;
+  padding:max(6px,env(safe-area-inset-top)) 10px 6px;display:flex;align-items:center;gap:6px}
+header .ref{flex:1;min-width:0;font-weight:600;font-size:16px;text-align:left;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header button.icon{width:36px;height:36px;border-radius:8px;display:grid;place-items:center;
+  font-size:15px;opacity:.92;flex:0 0 auto}
+header button.icon:hover{background:rgba(255,255,255,.12)}
+
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(3.2rem,1fr));gap:7px;
+  max-width:34rem}
+.cgrid button{height:48px;border-radius:9px;font-size:15px;color:var(--ink);
+  border:1px solid var(--rule);font-variant-numeric:tabular-nums}
+.cgrid button:hover{border-color:var(--blue)}
+.cgrid button[aria-current="true"]{background:var(--red);color:var(--on-accent);font-weight:700;
+  border-color:var(--red)}
+header .ref::after{content:" ▾";opacity:.55;font-size:12px}
+
+main{max-width:40rem;margin:0 auto;padding:14px 18px 90px}
+#text{font-family:Georgia,"Noto Serif","Times New Roman",serif;
+  font-size:calc(17px * var(--scale));line-height:1.72}
+.v{margin:0 0 .55em}
+.v>b{font-family:system-ui,sans-serif;font-size:.66em;font-weight:600;color:var(--blue);
+  vertical-align:.42em;margin-inline-end:.28em;font-variant-numeric:tabular-nums}
+.v.hl1{background:#FBEFAE;box-shadow:0 0 0 4px #FBEFAE}
+.v.hl2{background:#CFEBD0;box-shadow:0 0 0 4px #CFEBD0}
+.v.hl3{background:#D3E4F7;box-shadow:0 0 0 4px #D3E4F7}
+.v.hl4{background:#F6D9E4;box-shadow:0 0 0 4px #F6D9E4}
+.v.hl5{background:#F8DFC4;box-shadow:0 0 0 4px #F8DFC4}
+.v.hl6{background:#F7CFCB;box-shadow:0 0 0 4px #F7CFCB}
+.v.hl7{background:#E4D8F2;box-shadow:0 0 0 4px #E4D8F2}
+.v.hl8{background:#CDE9EA;box-shadow:0 0 0 4px #CDE9EA}
+.v.hl9{background:#E2EDBF;box-shadow:0 0 0 4px #E2EDBF}
+.v.hl10{background:#E4E4E4;box-shadow:0 0 0 4px #E4E4E4}
+.v[class*="hl"]{border-radius:4px}
+html[data-theme="night"] .v.hl1{background:#4A421C;box-shadow:0 0 0 4px #4A421C}
+html[data-theme="night"] .v.hl2{background:#22402A;box-shadow:0 0 0 4px #22402A}
+html[data-theme="night"] .v.hl3{background:#1E3550;box-shadow:0 0 0 4px #1E3550}
+html[data-theme="night"] .v.hl4{background:#46243A;box-shadow:0 0 0 4px #46243A}
+html[data-theme="night"] .v.hl5{background:#4A3320;box-shadow:0 0 0 4px #4A3320}
+html[data-theme="night"] .v.hl6{background:#4A2523;box-shadow:0 0 0 4px #4A2523}
+html[data-theme="night"] .v.hl7{background:#372A4A;box-shadow:0 0 0 4px #372A4A}
+html[data-theme="night"] .v.hl8{background:#1D4143;box-shadow:0 0 0 4px #1D4143}
+html[data-theme="night"] .v.hl9{background:#3A4220;box-shadow:0 0 0 4px #3A4220}
+html[data-theme="night"] .v.hl10{background:#3B3B3B;box-shadow:0 0 0 4px #3B3B3B}
+.v .flag{font-size:.62em;vertical-align:.5em;margin-inline-start:.2em;opacity:.85;
+  letter-spacing:.08em}
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(2.6rem,3.6rem));
+  gap:7px;margin:4px 0 2px;justify-content:start;max-width:30rem}
+.swatches button{height:40px;border-radius:9px;border:2px solid transparent}
+.swatches button[aria-pressed="true"]{border-color:var(--ink);
+  box-shadow:0 0 0 2px var(--paper) inset}
+.sw0{background:var(--blue-wash);color:var(--blue);font-size:11px;grid-column:span 2}
+.sw1{background:#FBEFAE}
+.sw2{background:#CFEBD0}
+.sw3{background:#D3E4F7}
+.sw4{background:#F6D9E4}
+.sw5{background:#F8DFC4}
+.sw6{background:#F7CFCB}
+.sw7{background:#E4D8F2}
+.sw8{background:#CDE9EA}
+.sw9{background:#E2EDBF}
+.sw10{background:#E4E4E4}
+html[data-theme="night"] .sw1{background:#4A421C}
+html[data-theme="night"] .sw2{background:#22402A}
+html[data-theme="night"] .sw3{background:#1E3550}
+html[data-theme="night"] .sw4{background:#46243A}
+html[data-theme="night"] .sw5{background:#4A3320}
+html[data-theme="night"] .sw6{background:#4A2523}
+html[data-theme="night"] .sw7{background:#372A4A}
+html[data-theme="night"] .sw8{background:#1D4143}
+html[data-theme="night"] .sw9{background:#3A4220}
+html[data-theme="night"] .sw10{background:#3B3B3B}
+textarea{width:100%;min-height:74px;padding:10px 12px;border-radius:9px;
+  border:1px solid var(--rule);background:var(--paper);color:var(--ink);font:inherit;
+  font-size:14px;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 2px}
+#topicTabs{flex-wrap:wrap;gap:5px;padding-bottom:6px;margin-bottom:2px}
+#topicTabs button{flex:0 0 auto;padding:8px 13px;font-size:13.5px}
+#topicTabsX{max-height:8.2em;overflow-y:auto;padding-bottom:2px}
+#topicTabs button{font-size:12.5px;padding:6px 10px}
+.chips button{padding:8px 13px;border-radius:15px;border:1px solid var(--rule);
+  font-size:13.5px;color:var(--ink)}
+.chips button[aria-pressed="true"]{background:var(--blue);color:var(--on-accent);border-color:var(--blue);
+  font-weight:600}
+.mrow{padding:11px 2px;border-bottom:1px solid var(--rule);cursor:pointer;display:flex;gap:10px}
+.mrow .dot{width:10px;height:10px;border-radius:50%;margin-top:5px;flex:0 0 auto;
+  border:1px solid rgba(0,0,0,.15)}
+.mrow .bd{flex:1;min-width:0}
+.mrow b{color:var(--blue);font-size:12px;display:block;margin-bottom:2px}
+.mrow p{margin:0;font-family:Georgia,serif;font-size:14px;line-height:1.5}
+.mrow .note{margin-top:4px;font-family:system-ui,sans-serif;font-size:13px;color:var(--ink);
+  background:var(--blue-wash);border-radius:7px;padding:6px 9px;white-space:pre-wrap}
+.mrow .tg{margin-top:5px;font-size:11px;color:var(--muted)}
+.tools{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px}
+#mkToolbar{margin-top:20px;padding-top:14px;border-top:1px solid var(--rule)}
+.tools button{padding:8px 12px;border-radius:8px;background:var(--blue-wash);
+  color:var(--blue);font-size:13px}
+.danger{color:#9B2F2A!important;background:#F7E7E5!important}
+html[data-theme="night"] .danger{background:#3A1F1D!important;color:#E39A93!important}
+p.en{margin:-.28em 0 .8em;padding-left:.7em;border-left:2px solid var(--rule);
+  font-size:calc(14.5px * var(--scale));line-height:1.6;color:var(--muted);
+  font-family:Georgia,"Times New Roman",serif}
+p.en>b{font-family:system-ui,sans-serif;font-size:.7em;font-weight:600;
+  vertical-align:.4em;margin-inline-end:.28em;opacity:.75}
+p.en w{cursor:pointer;border-bottom:1px dotted rgba(127,127,127,.45)}
+p.en w:active{background:var(--blue-wash)}
+.dl{width:100%;height:5px;border-radius:3px;background:var(--rule);overflow:hidden;
+  margin-top:8px;display:none}
+.dl.on{display:block}
+.dl i{display:block;height:100%;width:0;background:var(--blue);transition:width .2s}
+i.sup{font-style:italic;color:var(--supplied)}
+span.red{color:var(--red)}
+html[data-supw="1"] i.sup{font-weight:600}
+html[data-plain="1"] i.sup{font-style:normal;color:inherit;font-weight:inherit}
+html[data-plain="1"] span.red{color:inherit}
+.chapnum{font-family:Georgia,serif;font-size:calc(30px * var(--scale));color:var(--blue);
+  text-align:center;margin:.1em 0 .6em}
+nav.turn{display:flex;justify-content:space-between;gap:10px;margin-top:26px;
+  padding-top:14px;border-top:1px solid var(--rule)}
+nav.turn button{padding:9px 14px;border-radius:8px;background:var(--blue-wash);
+  color:var(--blue);font-size:14px;font-weight:500}
+nav.turn button:disabled{opacity:.35;cursor:default}
+
+.sheet{position:fixed;inset:0;z-index:60;background:var(--paper);display:none;
+  flex-direction:column;padding-top:max(0px,env(safe-area-inset-top))}
+.sheet.open{display:flex}
+.sheet .bar{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--rule)}
+.sheet .bar button.icon svg{display:block}
+.sheet .bar [data-close]{margin-inline-start:14px;position:relative}
+.sheet .bar [data-close]::before{content:"";position:absolute;inset-block:6px;
+  inset-inline-start:-8px;width:1px;background:var(--rule)}
+.sheet .bar h2{margin:0;font-size:15px;font-weight:600;flex:1}
+.sheet .body{flex:1;overflow-y:auto;padding:12px 14px 40px;-webkit-overflow-scrolling:touch}
+.sheet .body>*{max-width:44rem;margin-inline:auto;width:100%}
+.sheet .body>button,.sheet .body>details{display:block}
+.sheet .bar>h2{max-width:44rem;margin-inline:auto;width:100%}
+.sheet .bar{max-width:100%}
+.here{display:flex;align-items:center;gap:8px;margin:0 0 10px;padding:9px 12px;
+  border:1px solid var(--red);border-radius:9px;background:var(--here-wash);
+  color:var(--red);font-size:13px;cursor:pointer;width:100%;text-align:left}
+.here b{font-weight:700}
+.here span{margin-left:auto;opacity:.75;font-size:12px}
+.tabs{display:flex;gap:6px;padding:0 14px 10px}
+.tabs button{flex:1;padding:8px;border-radius:8px;font-size:13px;background:var(--blue-wash);color:var(--ink)}
+.tabs button[aria-selected="true"]{background:var(--blue);color:var(--on-accent);font-weight:600}
+#topicWrap{margin:2px auto 4px}
+#topicWrap summary{list-style:none;cursor:pointer;font-size:14px;font-weight:600;
+  color:var(--blue);padding:8px 2px;display:flex;align-items:center;gap:6px}
+#topicWrap summary::-webkit-details-marker{display:none}
+#topicWrap summary::after{content:"▾";margin-left:auto;color:var(--muted);
+  transition:transform .15s}
+#topicWrap[open] summary::after{transform:rotate(180deg)}
+.tpc{padding:11px 2px;border-bottom:1px solid var(--rule);cursor:pointer}
+.tpc b{color:var(--blue);font-size:13px;display:block;margin-bottom:2px}
+.tpc p{margin:0;font-family:Georgia,serif;font-size:14px;line-height:1.55}
+.tpc p.te{margin-top:.3em;padding-left:.6em;border-left:2px solid var(--rule);
+  font-size:12.5px;color:var(--muted);line-height:1.5}
+.hday{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--muted);margin:14px 0 4px;padding-bottom:4px;border-bottom:1px solid var(--rule)}
+.hday:first-child{margin-top:2px}
+.hwrap{position:relative;overflow:hidden;border-bottom:1px solid var(--rule)}
+.hwrap::after{content:"Устгах";position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:flex-end;padding-inline-end:14px;background:#9B2F2A;color:#fff;
+  font-size:13px;font-weight:600;z-index:0}
+html[data-theme="night"] .hwrap::after{background:#7A2723}
+.hrow{position:relative;z-index:1;background:var(--paper);display:flex;align-items:baseline;
+  gap:10px;padding:11px 2px;cursor:pointer;touch-action:pan-y;
+  transition:transform .18s ease,opacity .18s ease}
+.hrow.gone{transform:translateX(-105%);opacity:0}
+.hrow b{font-size:15px;font-weight:600}
+.hrow small{color:var(--muted);font-size:11px}
+.hrow .tm{margin-left:auto;color:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}
+.hrow.cur b{color:var(--red)}
+.hrow .act{margin-left:auto;display:flex;gap:6px}
+.hrow .act button{padding:5px 10px;border-radius:7px;background:var(--blue-wash);
+  color:var(--blue);font-size:12px}
+.hrow .act button.danger{background:#F7E7E5;color:#9B2F2A}
+html[data-theme="night"] .hrow .act button.danger{background:#3A1F1D;color:#E39A93}
+.sec{position:sticky;top:0;z-index:2;background:var(--paper);padding:10px 2px 6px;
+  font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);border-bottom:1px solid var(--rule);margin-bottom:6px}
+.blist{display:flex;flex-direction:column;gap:4px}
+.blist button{text-align:left;padding:11px 12px;border-radius:9px;
+  border:1px solid var(--rule);line-height:1.3;display:flex;align-items:baseline;gap:8px}
+.blist button:hover{border-color:var(--blue)}
+.blist button b{font-size:14.5px;font-weight:600}
+.blist button small{color:var(--muted);font-size:11px}
+.blist button .n{margin-left:auto;color:var(--muted);font-size:11px}
+.sortRow{display:flex;gap:6px;margin:18px 0 4px;padding-top:12px;
+  border-top:1px solid var(--rule)}
+.sortRow button{flex:1;padding:7px;border-radius:8px;background:var(--blue-wash);
+  color:var(--ink);font-size:12.5px}
+.sortRow button[aria-pressed="true"]{background:var(--blue);color:var(--on-accent);font-weight:600}
+input[type=search],input[type=text],textarea,select{
+  display:block;width:100%;max-width:44rem;margin-inline:auto}
+input[type=search]{padding:10px 12px;border-radius:9px;border:1px solid var(--rule);
+  background:var(--paper);color:var(--ink);font-size:15px}
+.hit{padding:10px 2px;border-bottom:1px solid var(--rule);cursor:pointer}
+.hit b{color:var(--blue);font-size:12px;display:block;margin-bottom:2px}
+.hit p{margin:0;font-family:Georgia,serif;font-size:14px;line-height:1.55}
+.hit mark{background:#F2E38C;color:inherit;border-radius:2px}
+.hit p.he{margin:.3em 0 0;padding-left:.6em;border-left:2px solid var(--rule);
+  font-size:13px;color:var(--muted);line-height:1.5}
+#qlang{font-size:12px;color:var(--muted);margin:8px auto 2px;min-height:1em}
+.sect{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--muted);margin:16px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--rule)}
+.sect:first-child{margin-top:4px}
+.sect .more{float:right;font-weight:400;text-transform:none;letter-spacing:0}
+.cwrap{margin-top:4px}
+.chead{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.chead b{color:var(--ink);font-size:15px}
+.forms{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.forms button{padding:7px 11px;border-radius:14px;border:1px solid var(--rule);
+  font-size:13px;color:var(--ink)}
+.forms button b{color:var(--blue);font-weight:600}
+.forms button[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:var(--on-accent)}
+.forms button[aria-pressed="true"] b{color:#fff}
+.cocc{padding:9px 2px;border-bottom:1px solid var(--rule);cursor:pointer}
+.cocc b{color:var(--blue);font-size:12px;margin-inline-end:6px}
+.cocc span{font-family:Georgia,serif;font-size:14px;line-height:1.55}
+.cocc mark{background:#F2E38C;color:inherit;border-radius:2px}
+.sent{border:1px solid var(--rule);border-radius:11px;padding:12px 14px;margin-bottom:10px}
+.sent .num{font-size:12px;color:var(--blue);font-weight:700;letter-spacing:.04em}
+.sent .lem{font-size:23px;line-height:1.35;margin:3px 0 2px}
+.sent .tr{font-size:13px;color:var(--muted);margin-bottom:8px}
+.sent .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);
+  margin-top:9px}
+.sent .txt{font-size:14px;line-height:1.6}
+.sent .kjvd{font-size:13px;line-height:1.6;color:var(--ink);background:var(--blue-wash);
+  border-radius:8px;padding:7px 10px;margin-top:5px}
+.sent a.xr{color:var(--blue);text-decoration:none;border-bottom:1px dotted var(--blue)}
+html[data-theme="night"] .cocc mark{background:#5C4A12;color:#F0E6C0}
+.refcard{border:1px solid var(--blue);background:var(--blue-wash);border-radius:10px;
+  padding:11px 13px;margin:6px 0 12px;cursor:pointer}
+.refcard b{display:block;color:var(--blue);font-size:15px;font-weight:700;margin-bottom:3px}
+.refcard p{margin:0;font-family:Georgia,serif;font-size:14px;line-height:1.55}
+.refcard p.re{margin-top:.35em;padding-left:.6em;border-left:2px solid var(--blue);
+  font-size:13px;color:var(--muted)}
+.refcard .go{float:right;font-size:12px;color:var(--blue);opacity:.8;font-weight:600}
+.refopts{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+.refopts button{padding:8px 12px;border-radius:8px;border:1px solid var(--blue);
+  color:var(--blue);font-size:13px;background:var(--blue-wash)}
+html[data-theme="night"] .hit mark{background:#5C4A12;color:#F0E6C0}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:11px 0;border-bottom:1px solid var(--rule);font-size:14px}
+.seg{display:flex;gap:4px;flex:0 0 auto}
+.seg button{padding:6px 13px;border-radius:7px;background:var(--blue-wash);color:var(--blue);font-size:13px}
+.seg button[aria-pressed="true"]{background:var(--blue);color:var(--on-accent)}
+.empty{color:var(--muted);font-size:14px;text-align:center;padding:34px 10px;line-height:1.6}
+details.share{border-top:1px solid var(--rule);margin-top:18px;padding-top:12px}
+details.share summary{list-style:none;cursor:pointer;font-size:14px;font-weight:600;
+  display:flex;align-items:center;gap:8px;padding:4px 0}
+details.share summary::-webkit-details-marker{display:none}
+details.share summary::after{content:"▾";margin-left:auto;color:var(--muted);
+  transition:transform .15s}
+details.share[open] summary::after{transform:rotate(180deg)}
+.instTabs{display:flex;gap:6px;margin:10px 0 4px;overflow-x:auto;scrollbar-width:none}
+.instTabs::-webkit-scrollbar{display:none}
+.instTabs button{flex:0 0 auto;padding:8px 14px;border-radius:8px;background:var(--blue-wash);
+  color:var(--ink);font-size:13px}
+.instTabs button[aria-pressed="true"]{background:var(--blue);color:var(--on-accent);font-weight:600}
+.inst{font-size:14px;line-height:1.65}
+.inst h5{margin:12px 0 4px;font-size:13px;font-weight:700;color:var(--blue)}
+.inst ol{margin:4px 0 8px;padding-inline-start:1.4em}
+.inst li{margin-bottom:6px}
+.inst .warn{background:var(--here-wash);border:1px solid var(--red);color:var(--red);
+  border-radius:9px;padding:9px 12px;margin:8px 0;font-size:13px;line-height:1.55}
+.inst .tip{background:var(--blue-wash);border-radius:9px;padding:9px 12px;margin:8px 0;
+  font-size:13px;line-height:1.55}
+.inst kbd{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--rule);
+  border-radius:4px;padding:1px 5px}
+.cnames{padding:4px 0 2px}
+.cnames .cn{display:flex;align-items:center;gap:10px;padding:6px 0}
+.cnames .cn i{width:26px;height:26px;border-radius:7px;flex:0 0 auto;
+  border:1px solid rgba(127,127,127,.35)}
+.cnames .cn input{flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--rule);
+  background:var(--paper);color:var(--ink);font-size:14px}
+.swatches .lab{grid-column:1/-1;justify-self:start;font-size:12px;color:var(--muted);text-align:center;
+  padding-top:2px}
+.cred{padding:6px 0 2px}
+.cred h4{margin:14px 0 3px;font-size:13px;font-weight:700;color:var(--blue)}
+.cred h4:first-child{margin-top:6px}
+.cred p{margin:0;font-size:13px;line-height:1.62}
+.cred .dim{color:var(--muted);font-size:12px;line-height:1.6}
+.qrbox{text-align:center;padding:14px 0 4px}
+.qrbox .qr{width:190px;height:190px;margin:0 auto;background:#fff;padding:10px;
+  border-radius:12px;border:1px solid var(--rule)}
+.qrbox .qr svg{width:100%;height:100%;display:block}
+.qrbox code{display:block;margin-top:10px;font-size:11px;color:var(--muted);
+  word-break:break-all;font-family:ui-monospace,Menlo,monospace}
+#project{position:fixed;inset:0;z-index:120;background:#fff;color:#000;display:none;
+  flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:4vmin}
+#project.on{display:flex}
+#project .qr{width:min(62vh,62vw);height:min(62vh,62vw)}
+#project .qr svg{width:100%;height:100%;display:block}
+#project .u{font-family:ui-monospace,Menlo,monospace;font-size:clamp(13px,2.4vw,26px);
+  word-break:break-all;text-align:center;max-width:92vw}
+#project .ttl{font-family:Georgia,serif;font-size:clamp(20px,4vw,44px);letter-spacing:.02em}
+#project .x{position:absolute;top:14px;right:16px;font-size:26px;color:#888}
+.stamp{font-size:12px;color:var(--muted);line-height:1.8;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-all}
+
+#boot{position:fixed;inset:0;background:var(--blue-deep);color:#fff;display:grid;
+  place-content:center;gap:16px;text-align:center;z-index:99;font-size:14px;padding:24px}
+#boot .t{font-family:Georgia,serif;font-size:23px;letter-spacing:.04em}
+#boot .err{color:#FFB4AE;max-width:20rem;line-height:1.65}
+#bar{width:min(15rem,70vw);height:4px;border-radius:2px;background:rgba(255,255,255,.2);
+  margin:0 auto;overflow:hidden}
+#bar i{display:block;height:100%;width:0;background:#fff;transition:width .2s}
+
+#act{position:fixed;left:0;right:0;bottom:0;z-index:70;background:var(--paper);
+  border-top:1px solid var(--rule);padding:10px 14px calc(14px + env(safe-area-inset-bottom));
+  display:none;gap:8px;flex-direction:column}
+#act.open{display:flex}
+#act .who{font-size:13px;color:var(--muted)}
+#act .btns{display:flex;gap:8px}
+#act .btns button{flex:1;padding:11px;border-radius:9px;background:var(--blue-wash);
+  color:var(--blue);font-size:14px;font-weight:500}
+/* Sits at the top: the foot of every sheet holds tools, and a toast landing on
+   them covers the control the reader is reaching for. */
+#toast{position:fixed;left:0;right:0;margin-inline:auto;width:fit-content;
+  top:calc(64px + env(safe-area-inset-top));z-index:130;
+  background:var(--toast-bg);color:#fff;padding:10px 16px;border-radius:20px;font-size:13.5px;
+  opacity:0;pointer-events:none;transition:opacity .22s;display:flex;align-items:center;
+  gap:12px;max-width:calc(100vw - 32px);box-shadow:0 6px 24px rgba(0,0,0,.35);
+  transform:translateY(-6px);transition:opacity .22s,transform .22s}
+#toast.show{transform:translateY(0)}
+#toast.show{opacity:1}
+#toast.act{pointer-events:auto}
+#toast button{background:rgba(255,255,255,.16);color:#fff;font-size:13px;font-weight:600;
+  padding:5px 12px;border-radius:14px;flex:0 0 auto}
+#toast button:hover{background:rgba(255,255,255,.28)}
+#update{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));
+  z-index:75;background:var(--blue);color:#fff;border-radius:11px;padding:12px 14px;
+  display:none;align-items:center;gap:12px;font-size:14px;box-shadow:0 6px 24px rgba(0,0,0,.22)}
+#update.open{display:flex}
+#update button{background:#fff;color:var(--blue);padding:7px 13px;border-radius:8px;
+  font-size:13px;font-weight:600;flex:0 0 auto}
+</style>
+</head>
+<body>
+
+<div id="boot">
+  <div class="t">Ариун Библи</div>
+  <div id="bootmsg">Бичвэрийг ачаалж байна…</div>
+  <div id="bar"><i id="barfill"></i></div>
+</div>
+
+<header>
+  <button class="icon" id="btnBooks" aria-label="Номууд">☰</button>
+  <button class="ref" id="curRef">—</button>
+  <button class="icon" id="btnSearch" aria-label="Хайх">🔍</button>
+  <button class="icon" id="btnMarks" aria-label="Тэмдэглэл">🔖</button>
+  <button class="icon" id="btnSet" aria-label="Тохиргоо">Aa</button>
+</header>
+
+
+<main>
+  <div id="text"></div>
+  <nav class="turn">
+    <button id="prev">← Өмнөх</button>
+    <button id="next">Дараах →</button>
+  </nav>
+</main>
+
+<section class="sheet" id="shVerse" aria-hidden="true">
+  <div class="bar"><h2 id="vsRef">Шүлэг</h2><button class="icon" data-close>✕</button></div>
+  <div class="body">
+    <p id="vsText" style="font-family:Georgia,serif;font-size:15px;line-height:1.6;
+      margin:0 auto 14px"></p>
+    <div style="font-size:13px;font-weight:600;margin-bottom:4px">Өнгө</div>
+    <div class="swatches" id="vsSwatches">
+      <button class="sw0" data-col="0" aria-pressed="true">Байхгүй</button>
+      <button class="sw1" data-col="1" aria-label="Шар"></button>
+      <button class="sw2" data-col="2" aria-label="Ногоон"></button>
+      <button class="sw3" data-col="3" aria-label="Цэнхэр"></button>
+      <button class="sw4" data-col="4" aria-label="Ягаан"></button>
+      <button class="sw5" data-col="5" aria-label="Улбар шар"></button>
+      <button class="sw6" data-col="6" aria-label="Улаан"></button>
+      <button class="sw7" data-col="7" aria-label="Нил ягаан"></button>
+      <button class="sw8" data-col="8" aria-label="Номин"></button>
+      <button class="sw9" data-col="9" aria-label="Цайвар ногоон"></button>
+      <button class="sw10" data-col="10" aria-label="Саарал"></button>
+    </div>
+    <div class="row"><span>🔖 Тэмдэглэл</span>
+      <div class="seg"><button id="vsBm">Нэмэх</button></div></div>
+    <div style="font-size:13px;font-weight:600;margin:14px auto 4px">Тэмдэглэсэн зүйл</div>
+    <textarea id="vsNote" placeholder="Энд бичнэ үү…"></textarea>
+    <div style="font-size:13px;font-weight:600;margin:14px auto 4px">Шошго (таслалаар)</div>
+    <input type="text" id="vsTags" placeholder="жишээ: цэг таслал, нэр" autocomplete="off"
+      style="width:100%;padding:10px 12px;border-radius:9px;border:1px solid var(--rule);
+      background:var(--paper);color:var(--ink);font-size:14px">
+    <div class="tools">
+      <button id="vsSave">Хадгалах</button>
+      <button id="vsCopy">📋 Хуулах</button>
+      <button id="vsDel" class="danger">Устгах</button>
+    </div>
+  </div>
+</section>
+
+<div id="project" role="dialog" aria-label="QR">
+  <span class="x" id="pjClose">✕</span>
+  <div class="ttl">Ариун Библи</div>
+  <div class="qr" id="qrLarge"><svg viewBox="0 0 37 37" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" role="img" aria-label="QR"><rect width="37" height="37" fill="#fff"/><path d="M2 2h7v1h-7zM10 2h3v1h-3zM18 2h6v1h-6zM25 2h1v1h-1zM28 2h7v1h-7zM2 3h1v1h-1zM8 3h1v1h-1zM10 3h3v1h-3zM16 3h1v1h-1zM18 3h1v1h-1zM23 3h1v1h-1zM25 3h1v1h-1zM28 3h1v1h-1zM34 3h1v1h-1zM2 4h1v1h-1zM4 4h3v1h-3zM8 4h1v1h-1zM12 4h1v1h-1zM15 4h3v1h-3zM21 4h2v1h-2zM24 4h1v1h-1zM26 4h1v1h-1zM28 4h1v1h-1zM30 4h3v1h-3zM34 4h1v1h-1zM2 5h1v1h-1zM4 5h3v1h-3zM8 5h1v1h-1zM10 5h2v1h-2zM13 5h1v1h-1zM17 5h1v1h-1zM23 5h4v1h-4zM28 5h1v1h-1zM30 5h3v1h-3zM34 5h1v1h-1zM2 6h1v1h-1zM4 6h3v1h-3zM8 6h1v1h-1zM12 6h1v1h-1zM15 6h1v1h-1zM18 6h3v1h-3zM25 6h2v1h-2zM28 6h1v1h-1zM30 6h3v1h-3zM34 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM12 7h2v1h-2zM15 7h1v1h-1zM17 7h2v1h-2zM20 7h3v1h-3zM26 7h1v1h-1zM28 7h1v1h-1zM34 7h1v1h-1zM2 8h7v1h-7zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h1v1h-1zM26 8h1v1h-1zM28 8h7v1h-7zM10 9h3v1h-3zM14 9h1v1h-1zM17 9h6v1h-6zM24 9h2v1h-2zM2 10h1v1h-1zM4 10h2v1h-2zM7 10h3v1h-3zM13 10h1v1h-1zM16 10h5v1h-5zM23 10h1v1h-1zM25 10h1v1h-1zM28 10h1v1h-1zM31 10h1v1h-1zM33 10h2v1h-2zM2 11h1v1h-1zM4 11h4v1h-4zM9 11h4v1h-4zM15 11h2v1h-2zM18 11h1v1h-1zM20 11h3v1h-3zM24 11h2v1h-2zM28 11h2v1h-2zM31 11h2v1h-2zM34 11h1v1h-1zM2 12h1v1h-1zM6 12h1v1h-1zM8 12h1v1h-1zM10 12h1v1h-1zM13 12h1v1h-1zM15 12h1v1h-1zM20 12h1v1h-1zM24 12h2v1h-2zM29 12h3v1h-3zM33 12h2v1h-2zM2 13h1v1h-1zM4 13h3v1h-3zM9 13h1v1h-1zM12 13h1v1h-1zM14 13h1v1h-1zM17 13h1v1h-1zM22 13h1v1h-1zM24 13h4v1h-4zM29 13h1v1h-1zM31 13h1v1h-1zM3 14h1v1h-1zM8 14h1v1h-1zM10 14h1v1h-1zM12 14h1v1h-1zM16 14h1v1h-1zM18 14h3v1h-3zM23 14h5v1h-5zM29 14h1v1h-1zM31 14h1v1h-1zM33 14h1v1h-1zM4 15h4v1h-4zM9 15h4v1h-4zM14 15h1v1h-1zM16 15h1v1h-1zM23 15h1v1h-1zM25 15h2v1h-2zM28 15h2v1h-2zM31 15h1v1h-1zM33 15h1v1h-1zM4 16h1v1h-1zM6 16h1v1h-1zM8 16h1v1h-1zM10 16h3v1h-3zM15 16h1v1h-1zM20 16h2v1h-2zM24 16h1v1h-1zM28 16h2v1h-2zM32 16h1v1h-1zM2 17h2v1h-2zM5 17h1v1h-1zM7 17h1v1h-1zM9 17h2v1h-2zM16 17h2v1h-2zM20 17h1v1h-1zM22 17h7v1h-7zM30 17h1v1h-1zM32 17h1v1h-1zM2 18h2v1h-2zM6 18h1v1h-1zM8 18h2v1h-2zM12 18h2v1h-2zM16 18h1v1h-1zM20 18h2v1h-2zM23 18h3v1h-3zM27 18h2v1h-2zM30 18h3v1h-3zM3 19h2v1h-2zM7 19h1v1h-1zM9 19h1v1h-1zM14 19h6v1h-6zM22 19h1v1h-1zM25 19h2v1h-2zM28 19h1v1h-1zM30 19h2v1h-2zM34 19h1v1h-1zM2 20h1v1h-1zM5 20h1v1h-1zM7 20h4v1h-4zM12 20h1v1h-1zM17 20h3v1h-3zM22 20h3v1h-3zM27 20h4v1h-4zM32 20h2v1h-2zM2 21h2v1h-2zM5 21h1v1h-1zM9 21h6v1h-6zM16 21h7v1h-7zM24 21h2v1h-2zM27 21h1v1h-1zM30 21h1v1h-1zM34 21h1v1h-1zM2 22h1v1h-1zM4 22h3v1h-3zM8 22h3v1h-3zM13 22h1v1h-1zM18 22h1v1h-1zM21 22h1v1h-1zM31 22h4v1h-4zM2 23h5v1h-5zM10 23h1v1h-1zM13 23h1v1h-1zM15 23h1v1h-1zM17 23h2v1h-2zM20 23h1v1h-1zM22 23h3v1h-3zM29 23h1v1h-1zM31 23h1v1h-1zM34 23h1v1h-1zM4 24h2v1h-2zM7 24h7v1h-7zM17 24h1v1h-1zM19 24h2v1h-2zM23 24h4v1h-4zM28 24h7v1h-7zM3 25h2v1h-2zM6 25h2v1h-2zM13 25h5v1h-5zM20 25h1v1h-1zM22 25h1v1h-1zM28 25h2v1h-2zM31 25h1v1h-1zM34 25h1v1h-1zM2 26h1v1h-1zM4 26h2v1h-2zM8 26h1v1h-1zM12 26h1v1h-1zM15 26h1v1h-1zM19 26h1v1h-1zM22 26h1v1h-1zM24 26h7v1h-7zM33 26h1v1h-1zM10 27h9v1h-9zM21 27h1v1h-1zM23 27h1v1h-1zM25 27h2v1h-2zM30 27h2v1h-2zM2 28h7v1h-7zM10 28h1v1h-1zM14 28h1v1h-1zM18 28h6v1h-6zM25 28h2v1h-2zM28 28h1v1h-1zM30 28h1v1h-1zM2 29h1v1h-1zM8 29h1v1h-1zM10 29h2v1h-2zM13 29h2v1h-2zM18 29h9v1h-9zM30 29h3v1h-3zM2 30h1v1h-1zM4 30h3v1h-3zM8 30h1v1h-1zM11 30h2v1h-2zM14 30h9v1h-9zM24 30h7v1h-7zM32 30h3v1h-3zM2 31h1v1h-1zM4 31h3v1h-3zM8 31h1v1h-1zM10 31h1v1h-1zM12 31h2v1h-2zM16 31h1v1h-1zM18 31h2v1h-2zM21 31h4v1h-4zM29 31h1v1h-1zM32 31h1v1h-1zM34 31h1v1h-1zM2 32h1v1h-1zM4 32h3v1h-3zM8 32h1v1h-1zM10 32h1v1h-1zM13 32h2v1h-2zM17 32h3v1h-3zM22 32h1v1h-1zM24 32h6v1h-6zM31 32h2v1h-2zM2 33h1v1h-1zM8 33h1v1h-1zM11 33h1v1h-1zM16 33h1v1h-1zM19 33h2v1h-2zM24 33h1v1h-1zM27 33h1v1h-1zM29 33h2v1h-2zM34 33h1v1h-1zM2 34h7v1h-7zM10 34h4v1h-4zM15 34h2v1h-2zM18 34h3v1h-3zM23 34h1v1h-1zM25 34h1v1h-1zM27 34h1v1h-1zM30 34h1v1h-1zM32 34h1v1h-1z" fill="#000"/></svg></div>
+  <div class="u">https://stanleywoosweeleong.github.io/HOLYBIBLE_MGLKJV/</div>
+</div>
+
+<div id="toast" role="status"></div>
+
+<div id="update"><span style="flex:1">Шинэ хувилбар бэлэн боллоо.</span><button id="doUpdate">Шинэчлэх</button></div>
+
+<section class="sheet" id="shBooks" aria-hidden="true">
+  <div class="bar"><h2>Номууд</h2>
+    <button class="icon" id="btnHist" aria-label="Түүх" title="Түүх"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 1.9"/></svg></button>
+    <button class="icon" data-close>✕</button></div>
+  <div class="tabs">
+    <button id="tabOT">Хуучин Гэрээ</button>
+    <button id="tabNT">Шинэ Гэрээ</button>
+  </div>
+  <div class="body">
+    <div class="blist" id="bookList"></div>
+    <div class="sortRow">
+      <button id="sortTrad" aria-pressed="true">Уламжлалт</button>
+      <button id="sortAlpha" aria-pressed="false">Цагаан толгойн дараалал</button>
+    </div>
+  </div>
+</section>
+
+<section class="sheet" id="shChap" aria-hidden="true">
+  <div class="bar">
+    <button class="icon" id="chapBack" aria-label="Номууд">‹</button>
+    <h2 id="chapTitle">Бүлэг</h2>
+    <button class="icon" data-close>✕</button>
+  </div>
+  <div class="body">
+    <div class="cgrid" id="chapList"></div>
+  </div>
+</section>
+
+<section class="sheet" id="shHist" aria-hidden="true">
+  <div class="bar">
+    <button class="icon" id="histBack" aria-label="Номууд">‹</button>
+    <h2>Түүх ба сэдэв</h2>
+    <button class="icon" data-close>✕</button>
+  </div>
+  <div class="body">
+    <div class="chips" id="histTabs"></div>
+    <details id="topicWrap">
+      <summary id="topicSummary">📑 Сэдэвчилсэн эшлэл</summary>
+      <div class="chips" id="topicTabs"></div>
+    </details>
+    <div class="tools" id="histTools" style="justify-content:flex-end">
+      <button id="histClear" class="danger"></button>
+    </div>
+    <div id="histList"></div>
+  </div>
+</section>
+
+<section class="sheet" id="shSearch" aria-hidden="true">
+  <div class="bar"><h2>Хайх</h2><button class="icon" data-close>✕</button></div>
+  <div class="body">
+    <input type="search" id="q" placeholder="Үг, эшлэл (Гал 2:20), эсвэл H127" autocomplete="off">
+    <div id="qlang"></div>
+    <div id="qinfo" class="empty">Хайх үгээ бичнэ үү.</div>
+    <div id="hits"></div>
+    <div id="conc" class="cwrap"></div>
+  </div>
+</section>
+
+<section class="sheet" id="shMarks" aria-hidden="true">
+  <div class="bar"><h2>Миний тэмдэглэл</h2>
+    <button class="icon" data-close>✕</button></div>
+  <div class="body">
+    <input type="search" id="mq" placeholder="Тэмдэглэл, шошго, бичвэрээс хайх…"
+      autocomplete="off">
+    <div class="chips" id="mkKind"></div>
+    <div class="chips" id="mkTags"></div>
+    <div id="mkCount" style="font-size:12px;color:var(--muted);margin:6px auto"></div>
+    <div id="marks"></div>
+    <div class="tools" id="mkToolbar">
+      <button id="mkCopyTxt">📋 Бичвэрээр хуулах</button>
+      <button id="mkExport">⬇ Нөөшлөх (JSON)</button>
+      <button id="mkImport">⬆ Сэргээх</button>
+      <button id="mkPurge" class="danger">🗑 Хогийн савыг хоослох</button>
+      <button id="mkClear" class="danger">Бүгдийг устгах</button>
+    </div>
+  </div>
+</section>
+
+<section class="sheet" id="shSet" aria-hidden="true">
+  <div class="bar"><h2>Тохиргоо</h2><button class="icon" data-close>✕</button></div>
+  <div class="body">
+    <div class="row"><span>Үсгийн хэмжээ</span>
+      <div class="seg"><button id="fMinus">A−</button>
+        <span id="fVal" style="min-width:3.4em;text-align:center;color:var(--muted)"></span>
+        <button id="fPlus">A+</button></div></div>
+    <div class="row"><span>Шөнийн горим</span>
+      <div class="seg"><button id="thDay" aria-pressed="true">Өдөр</button>
+        <button id="thNight" aria-pressed="false">Шөнө</button></div></div>
+    <div class="row" id="dimRow"><span>Шөнийн гэрэлтэлт<br>
+      <small style="color:var(--muted)">Гэрт унтахын өмнө уншихад зөөлөн</small></span>
+      <div class="seg"><button id="dimOff" aria-pressed="true">Энгийн</button>
+        <button id="dimOn" aria-pressed="false">Зөөлөн</button></div></div>
+    <div class="row"><span>Онцлох бичиглэл<br>
+      <small style="color:var(--muted)">Улаан үг ба налуу нөхөх үг</small></span>
+      <div class="seg"><button id="fmtOn" aria-pressed="true">Асаах</button>
+        <button id="fmtOff" aria-pressed="false">Унтраах</button></div></div>
+    <div class="row"><span>Нөхөх үгийн жин<br>
+      <small style="color:var(--muted)">Саарал налуу үгийг тод болгох</small></span>
+      <div class="seg"><button id="swNorm" aria-pressed="true">Энгийн</button>
+        <button id="swBold" aria-pressed="false">Тод</button></div></div>
+
+    <div class="row" style="display:block" id="enRow">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <span>Англи хувилбар (KJV)<br>
+          <small style="color:var(--muted)" id="enNote">Татаж аваагүй · 1.2 MB</small></span>
+        <div class="seg" id="enCtl"></div>
+      </div>
+      <div class="dl" id="enBar"><i id="enFill"></i></div>
+    </div>
+
+    <div class="row" style="display:block" id="stRow">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <span>Судалгааны багц<br>
+          <small style="color:var(--muted)" id="stNote"></small></span>
+        <div class="seg" id="stCtl"></div>
+      </div>
+      <div class="dl" id="stBar"><i id="stFill"></i></div>
+    </div>
+
+    <p style="margin:18px auto 6px;font-size:13px;font-weight:600">Хувилбарын мэдээлэл</p>
+    <div class="stamp" id="stamp"></div>
+    <button id="copyStamp" style="margin-top:10px;padding:9px 13px;border-radius:8px;
+      background:var(--blue-wash);color:var(--blue);font-size:13px">Мэдээллийг хуулах</button>
+    <p class="empty" style="text-align:left">Энэ хэрэглээ бүрэн офлайн ажиллана.
+      Нэг удаа нээсний дараа интернэт шаардлагагүй.</p>
+
+    <details class="share">
+      <summary>📲 Суулгах заавар · Installation guide</summary>
+      <div class="instTabs" id="instTabs"></div>
+      <div class="inst" id="instBody"></div>
+      <div class="tools">
+        <button id="instCopy">📋 Заавраа хуулах</button>
+      </div>
+    </details>
+
+    <details class="share">
+      <summary>🎨 Өнгөний нэр</summary>
+      <p class="empty" style="text-align:left;padding:8px 0 2px">Тэмдэглэсэн өнгө бүрт
+        өөрийн утга өгч болно — жишээ нь «Амлалт», «Тушаал», «Залбирал». Хоосон
+        орхивол өнгөний нэр хэвээр үлдэнэ.</p>
+      <div class="cnames" id="colNames"></div>
+      <div class="tools"><button id="colReset">Анхны нэр рүү буцаах</button></div>
+    </details>
+
+    <details class="share">
+      <summary>🙏 Эх сурвалж ба талархал</summary>
+      <div class="cred">
+        <h4>Монгол Библи</h4>
+        <p>Монгол Библи орчуулгын баг. Зохиогчийн эрх эзэмшигчийн зөвшөөрлөөр
+           ашиглав. 2026 оны хянан засварласан хэвлэл.</p>
+
+        <h4>Англи хувилбар (KJV)</h4>
+        <p>King James Version, 1769. Нийтийн эзэмшил.
+           <span class="dim">Үндсэн бичвэрийн эрх Их Британид Crown copyright-оор
+           хамгаалагдсан.</span></p>
+
+        <h4>Стронгийн еврей ба грек толь</h4>
+        <p><b>James Strong</b>, S.T.D., LL.D. — 1890, 1894. Нийтийн эзэмшил.</p>
+        <p>Грек XML хувилбарыг 2006 онд <b>Ulrik Petersen</b> бэлтгэсэн.<br>
+           Еврей өгөгдлийг <b>David Instone-Brewer</b> цуглуулж, алдаануудыг эх
+           сурвалжтай тулган цэвэрлэсэн.<br>
+           Еврей хэсгийн засвар, Юникод галиглалыг <b>David Troidl</b> хийсэн.<br>
+           JSON хувилбар © <b>Open Scriptures</b> (2009, 2010), CC BY-SA.</p>
+
+        <h4>KJV-ийн үг тус бүрийн Стронгийн тэмдэглэгээ</h4>
+        <p><b>CrossWire Bible Society</b> — Project KJV2003.<br>
+           Хуучин Гэрээний өгөгдлийг <b>The Bible Foundation</b>-ы сайн дурын
+           ажилтнууд гараар бичсэн.<br>
+           Шинэ Гэрээний өгөгдлийг <b>Project KJV2003</b>-ын сайн дурынхан
+           Textus Receptus-тай тулгаж гүйцээсэн.<br>
+           Грек эх бичвэр, Стронгийн дугаар ба хэлзүйн задаргаа:
+           <b>Dr. Maurice Robinson</b>.<br>
+           Хэлбэржүүлэлтийн тэмдэглэгээ: <b>Michael Paul Johnson</b> (ebible.org).</p>
+        <p class="dim">Эдгээр өгөгдлийг олон жилийн турш сайн дурын ажилтнууд
+           гараар бэлтгэсэн бөгөөд бүх хүнд үнэ төлбөргүй ашиглуулахаар өгсөн юм.
+           Тэдний хөдөлмөрт талархъя.</p>
+
+        <h4>Acknowledgements</h4>
+        <p class="dim">Mongolian text © the Mongolian Bible translation team, used with
+           permission.</p>
+        <p class="dim">Strong's Hebrew and Greek dictionaries by <b>James Strong</b>
+           (1890, 1894), public domain. Greek XML e-text prepared by
+           <b>Ulrik Petersen</b> (2006). Hebrew data assembled and corrected against the
+           originals by <b>David Instone-Brewer</b>; editing, corrections and Unicode
+           transliterations by <b>David Troidl</b>. JSON edition © <b>Open Scriptures</b>
+           (2009, 2010), CC BY-SA.</p>
+        <p class="dim">Word-level Strong's tagging of the KJV from the KJV2003 Project of
+           <b>CrossWire Bible Society</b>. Old Testament data keyed by volunteers of
+           <b>The Bible Foundation</b>; New Testament synchronised to the Textus Receptus
+           by the volunteers of <b>Project KJV2003</b>; Greek base text with Strong's
+           numbers and morphology by <b>Dr. Maurice Robinson</b>; formatting markup by
+           <b>Michael Paul Johnson</b> (ebible.org).</p>
+        <p class="dim">All of it was given away freely by its authors. Some of these
+           people worked at it for a decade or more without payment, and most will never
+           know where it ended up. Our thanks to every one of them.</p>
+      </div>
+    </details>
+
+    <details class="share">
+      <summary>📱 Хуваалцах · QR код</summary>
+      <div class="qrbox">
+        <div class="qr" id="qrSmall"><svg viewBox="0 0 37 37" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" role="img" aria-label="QR"><rect width="37" height="37" fill="#fff"/><path d="M2 2h7v1h-7zM10 2h3v1h-3zM18 2h6v1h-6zM25 2h1v1h-1zM28 2h7v1h-7zM2 3h1v1h-1zM8 3h1v1h-1zM10 3h3v1h-3zM16 3h1v1h-1zM18 3h1v1h-1zM23 3h1v1h-1zM25 3h1v1h-1zM28 3h1v1h-1zM34 3h1v1h-1zM2 4h1v1h-1zM4 4h3v1h-3zM8 4h1v1h-1zM12 4h1v1h-1zM15 4h3v1h-3zM21 4h2v1h-2zM24 4h1v1h-1zM26 4h1v1h-1zM28 4h1v1h-1zM30 4h3v1h-3zM34 4h1v1h-1zM2 5h1v1h-1zM4 5h3v1h-3zM8 5h1v1h-1zM10 5h2v1h-2zM13 5h1v1h-1zM17 5h1v1h-1zM23 5h4v1h-4zM28 5h1v1h-1zM30 5h3v1h-3zM34 5h1v1h-1zM2 6h1v1h-1zM4 6h3v1h-3zM8 6h1v1h-1zM12 6h1v1h-1zM15 6h1v1h-1zM18 6h3v1h-3zM25 6h2v1h-2zM28 6h1v1h-1zM30 6h3v1h-3zM34 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM12 7h2v1h-2zM15 7h1v1h-1zM17 7h2v1h-2zM20 7h3v1h-3zM26 7h1v1h-1zM28 7h1v1h-1zM34 7h1v1h-1zM2 8h7v1h-7zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h1v1h-1zM26 8h1v1h-1zM28 8h7v1h-7zM10 9h3v1h-3zM14 9h1v1h-1zM17 9h6v1h-6zM24 9h2v1h-2zM2 10h1v1h-1zM4 10h2v1h-2zM7 10h3v1h-3zM13 10h1v1h-1zM16 10h5v1h-5zM23 10h1v1h-1zM25 10h1v1h-1zM28 10h1v1h-1zM31 10h1v1h-1zM33 10h2v1h-2zM2 11h1v1h-1zM4 11h4v1h-4zM9 11h4v1h-4zM15 11h2v1h-2zM18 11h1v1h-1zM20 11h3v1h-3zM24 11h2v1h-2zM28 11h2v1h-2zM31 11h2v1h-2zM34 11h1v1h-1zM2 12h1v1h-1zM6 12h1v1h-1zM8 12h1v1h-1zM10 12h1v1h-1zM13 12h1v1h-1zM15 12h1v1h-1zM20 12h1v1h-1zM24 12h2v1h-2zM29 12h3v1h-3zM33 12h2v1h-2zM2 13h1v1h-1zM4 13h3v1h-3zM9 13h1v1h-1zM12 13h1v1h-1zM14 13h1v1h-1zM17 13h1v1h-1zM22 13h1v1h-1zM24 13h4v1h-4zM29 13h1v1h-1zM31 13h1v1h-1zM3 14h1v1h-1zM8 14h1v1h-1zM10 14h1v1h-1zM12 14h1v1h-1zM16 14h1v1h-1zM18 14h3v1h-3zM23 14h5v1h-5zM29 14h1v1h-1zM31 14h1v1h-1zM33 14h1v1h-1zM4 15h4v1h-4zM9 15h4v1h-4zM14 15h1v1h-1zM16 15h1v1h-1zM23 15h1v1h-1zM25 15h2v1h-2zM28 15h2v1h-2zM31 15h1v1h-1zM33 15h1v1h-1zM4 16h1v1h-1zM6 16h1v1h-1zM8 16h1v1h-1zM10 16h3v1h-3zM15 16h1v1h-1zM20 16h2v1h-2zM24 16h1v1h-1zM28 16h2v1h-2zM32 16h1v1h-1zM2 17h2v1h-2zM5 17h1v1h-1zM7 17h1v1h-1zM9 17h2v1h-2zM16 17h2v1h-2zM20 17h1v1h-1zM22 17h7v1h-7zM30 17h1v1h-1zM32 17h1v1h-1zM2 18h2v1h-2zM6 18h1v1h-1zM8 18h2v1h-2zM12 18h2v1h-2zM16 18h1v1h-1zM20 18h2v1h-2zM23 18h3v1h-3zM27 18h2v1h-2zM30 18h3v1h-3zM3 19h2v1h-2zM7 19h1v1h-1zM9 19h1v1h-1zM14 19h6v1h-6zM22 19h1v1h-1zM25 19h2v1h-2zM28 19h1v1h-1zM30 19h2v1h-2zM34 19h1v1h-1zM2 20h1v1h-1zM5 20h1v1h-1zM7 20h4v1h-4zM12 20h1v1h-1zM17 20h3v1h-3zM22 20h3v1h-3zM27 20h4v1h-4zM32 20h2v1h-2zM2 21h2v1h-2zM5 21h1v1h-1zM9 21h6v1h-6zM16 21h7v1h-7zM24 21h2v1h-2zM27 21h1v1h-1zM30 21h1v1h-1zM34 21h1v1h-1zM2 22h1v1h-1zM4 22h3v1h-3zM8 22h3v1h-3zM13 22h1v1h-1zM18 22h1v1h-1zM21 22h1v1h-1zM31 22h4v1h-4zM2 23h5v1h-5zM10 23h1v1h-1zM13 23h1v1h-1zM15 23h1v1h-1zM17 23h2v1h-2zM20 23h1v1h-1zM22 23h3v1h-3zM29 23h1v1h-1zM31 23h1v1h-1zM34 23h1v1h-1zM4 24h2v1h-2zM7 24h7v1h-7zM17 24h1v1h-1zM19 24h2v1h-2zM23 24h4v1h-4zM28 24h7v1h-7zM3 25h2v1h-2zM6 25h2v1h-2zM13 25h5v1h-5zM20 25h1v1h-1zM22 25h1v1h-1zM28 25h2v1h-2zM31 25h1v1h-1zM34 25h1v1h-1zM2 26h1v1h-1zM4 26h2v1h-2zM8 26h1v1h-1zM12 26h1v1h-1zM15 26h1v1h-1zM19 26h1v1h-1zM22 26h1v1h-1zM24 26h7v1h-7zM33 26h1v1h-1zM10 27h9v1h-9zM21 27h1v1h-1zM23 27h1v1h-1zM25 27h2v1h-2zM30 27h2v1h-2zM2 28h7v1h-7zM10 28h1v1h-1zM14 28h1v1h-1zM18 28h6v1h-6zM25 28h2v1h-2zM28 28h1v1h-1zM30 28h1v1h-1zM2 29h1v1h-1zM8 29h1v1h-1zM10 29h2v1h-2zM13 29h2v1h-2zM18 29h9v1h-9zM30 29h3v1h-3zM2 30h1v1h-1zM4 30h3v1h-3zM8 30h1v1h-1zM11 30h2v1h-2zM14 30h9v1h-9zM24 30h7v1h-7zM32 30h3v1h-3zM2 31h1v1h-1zM4 31h3v1h-3zM8 31h1v1h-1zM10 31h1v1h-1zM12 31h2v1h-2zM16 31h1v1h-1zM18 31h2v1h-2zM21 31h4v1h-4zM29 31h1v1h-1zM32 31h1v1h-1zM34 31h1v1h-1zM2 32h1v1h-1zM4 32h3v1h-3zM8 32h1v1h-1zM10 32h1v1h-1zM13 32h2v1h-2zM17 32h3v1h-3zM22 32h1v1h-1zM24 32h6v1h-6zM31 32h2v1h-2zM2 33h1v1h-1zM8 33h1v1h-1zM11 33h1v1h-1zM16 33h1v1h-1zM19 33h2v1h-2zM24 33h1v1h-1zM27 33h1v1h-1zM29 33h2v1h-2zM34 33h1v1h-1zM2 34h7v1h-7zM10 34h4v1h-4zM15 34h2v1h-2zM18 34h3v1h-3zM23 34h1v1h-1zM25 34h1v1h-1zM27 34h1v1h-1zM30 34h1v1h-1zM32 34h1v1h-1z" fill="#000"/></svg></div>
+        <code>https://stanleywoosweeleong.github.io/HOLYBIBLE_MGLKJV/</code>
+        <div class="tools" style="justify-content:center">
+          <button id="qrBig">🖥 Дэлгэцэнд том харуулах</button>
+          <button id="qrCopy">🔗 Холбоосыг хуулах</button>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<script>
+const VERSION="1.0.1", BUILT="2026-08-06", DATA_URL="data/bible-1.0.1.bin";
+const INLINE_DATA="";
+const KJV_URL="data/kjv.bin", KJV_KEY="kjv-1769", INLINE_KJV="";
+const STR_URL="data/study.bin", STR_KEY="study-v2";
+const OT=39, EXPECT_BOOKS=66, EXPECT_VERSES=31102;
+let B=null, E=null, S=null, K=null, SIDX=null, bi=0, ci=0;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const store={
+  get(k,d){try{const v=localStorage.getItem("mnbible."+k);return v===null?d:JSON.parse(v)}catch(e){return d}},
+  set(k,v){try{localStorage.setItem("mnbible."+k,JSON.stringify(v))}catch(e){}}
+};
+const setBar=p=>{$("#barfill").style.width=p+"%"};
+
+async function gunzip(buf){
+  const ds=new DecompressionStream("gzip");
+  return new Response(new Blob([buf]).stream().pipeThrough(ds)).arrayBuffer();
+}
+
+/* ---- optional English text, kept in IndexedDB so it survives app updates ---- */
+let _db=null;
+function withTimeout(p,ms,label){
+  return Promise.race([p,new Promise((_,rej)=>
+    setTimeout(()=>rej(new Error("timeout:"+label)),ms))]);
+}
+function idb(){
+  if(_db) return _db;
+  _db=new Promise((res,rej)=>{
+    if(!self.indexedDB) return rej(new Error("no indexeddb"));
+    const r=indexedDB.open("mnbible",2);
+    r.onupgradeneeded=e=>{
+      const db=r.result;
+      if(!db.objectStoreNames.contains("blobs")) db.createObjectStore("blobs");
+      if(!db.objectStoreNames.contains("marks")) db.createObjectStore("marks",{keyPath:"k"});
+    };
+    r.onsuccess=()=>{
+      // another tab holding an older version would block every later write
+      r.result.onversionchange=()=>{ try{ r.result.close() }catch(e){} _db=null };
+      res(r.result);
+    };
+    r.onerror=()=>rej(r.error||new Error("open failed"));
+    r.onblocked=()=>rej(new Error("blocked by another tab"));
+  });
+  _db=_db.catch(e=>{ _db=null; throw e });
+  return withTimeout(_db,6000,"indexeddb");
+}
+function idbOp(mode,fn,storeName){
+  const name=storeName||"blobs";
+  return idb().then(db=>new Promise((res,rej)=>{
+    const tx=db.transaction(name,mode), st=tx.objectStore(name);
+    const rq=fn(st);
+    if(rq&&"onsuccess" in rq){ rq.onsuccess=()=>res(rq.result); rq.onerror=()=>rej(rq.error) }
+    else { tx.oncomplete=()=>res(); tx.onerror=()=>rej(tx.error) }
+  }));
+}
+async function loadEnglish(){
+  try{
+    let gz;
+    if(INLINE_KJV){ gz=Uint8Array.from(atob(INLINE_KJV),c=>c.charCodeAt(0)); }
+    else{
+      gz=await idbOp("readonly",st=>st.get(KJV_KEY));
+      if(!gz) return false;
+    }
+    const buf=await gunzip(gz);
+    const d=JSON.parse(new TextDecoder().decode(buf));
+    let tv=0; for(const b of d) for(const c of b) tv+=c.length;
+    if(d.length!==EXPECT_BOOKS||tv!==EXPECT_VERSES) throw new Error("kjv:"+d.length+"/"+tv);
+    E=d; return true;
+  }catch(e){ E=null; return false }
+}
+async function loadStrongs(){
+  try{
+    const gz=await idbOp("readonly",st=>st.get(STR_KEY));
+    if(!gz){
+      // a superseded pack under an older key would never be refreshed - clear it
+      try{
+        const keys=await idbOp("readonly",st=>st.getAllKeys());
+        for(const k of keys||[]){
+          if(typeof k==="string"&&k.startsWith("study-")&&k!==STR_KEY)
+            await idbOp("readwrite",st=>st.delete(k));
+        }
+      }catch(e){}
+      return false;
+    }
+    const buf=await gunzip(gz);
+    const p=JSON.parse(new TextDecoder().decode(buf));
+    S=p.d; K=p.t;
+    return Object.keys(S).length>10000 && Array.isArray(K) && K.length===66;
+  }catch(e){ S=null; K=null; return false }
+}
+async function downloadStrongs(){
+  if(!STR_URL){ toast("Энэ хувилбарт боломжгүй"); return }
+  const ctl=$("#stCtl"), bar=$("#stBar"), fill=$("#stFill");
+  ctl.innerHTML='<button disabled>Татаж байна…</button>'; bar.classList.add("on");
+  try{
+    const res=await fetch(STR_URL,{cache:"no-store"});
+    if(!res.ok) throw new Error("http"+res.status);
+    const bytes=new Uint8Array(await res.arrayBuffer());
+    fill.style.width="70%";
+    const p=JSON.parse(new TextDecoder().decode(await gunzip(bytes)));
+    if(Object.keys(p.d||{}).length<10000||!Array.isArray(p.t)||p.t.length!==66)
+      throw new Error("бүрэн бус");
+    await idbOp("readwrite",st=>st.put(bytes,STR_KEY));
+    S=p.d; K=p.t; SIDX=null; fill.style.width="100%"; toast("Судалгааны багц бэлэн");
+    render();
+  }catch(e){ toast("Татаж чадсангүй: "+e.message) }
+  bar.classList.remove("on"); fill.style.width="0"; buildStCtl();
+}
+async function removeStrongs(){
+  if(!confirm("Судалгааны багцыг устгах уу?\n\n"
+    +"Дахин авахын тулд интернэт хэрэгтэй (2.8 МБ).")) return;
+  await idbOp("readwrite",st=>st.delete(STR_KEY));
+  S=null; K=null; SIDX=null; buildStCtl(); render(); toast("Устгагдлаа");
+}
+function buildStCtl(){
+  const row=$("#stRow"), ctl=$("#stCtl"), note=$("#stNote");
+  if(!row||!ctl||!note) return;
+  if((!STR_URL||MSTORE!=="idb")&&!S){ row.style.display="none"; return }
+  if(S){
+    note.textContent="Татсан · "+Object.keys(S).length.toLocaleString()
+      +" толины бичлэг · KJV үг тус бүр тэмдэглэгдсэн";
+    ctl.innerHTML='<button id="stDel" title="Устгах">🗑</button>';
+    $("#stDel").onclick=removeStrongs;
+  }else{
+    note.textContent="Татаж аваагүй · 2.9 MB · Стронгийн толь + KJV тэмдэглэгээ";
+    ctl.innerHTML='<button id="stGet">Татах</button>';
+    $("#stGet").onclick=downloadStrongs;
+  }
+}
+
+/* ---- Strong's lexicon lookup ---- */
+function strIndex(){
+  if(SIDX||!S) return SIDX;
+  const idx=Object.create(null), W=/[a-z]+/g;
+  for(const k in S){
+    const kjv=(S[k][5]||"").toLowerCase();
+    W.lastIndex=0; let m;
+    const seen=new Set();
+    while((m=W.exec(kjv))){
+      const w=m[0];
+      if(w.length<3||seen.has(w)) continue;
+      seen.add(w);
+      (idx[w]||(idx[w]=[])).push(k);
+    }
+  }
+  SIDX=idx; return idx;
+}
+function strEntryHTML(k){
+  const v=S[k]; if(!v) return "";
+  const [lemma,translit,pron,deriv,def,kjv]=v;
+  const xref=t=>esc(t).replace(/\b([HG]\d{1,4})\b/g,'<a class="xr" data-s="$1">$1</a>');
+  let h='<div class="sent"><div class="num">'+esc(k)+"</div>";
+  if(lemma) h+='<div class="lem">'+esc(lemma)+"</div>";
+  h+='<div class="tr">'+esc(translit||"")+(pron?"  ·  "+esc(pron):"")+"</div>";
+  if(deriv) h+='<div class="lbl">Гарал</div><div class="txt">'+xref(deriv)+"</div>";
+  if(def) h+='<div class="lbl">Утга</div><div class="txt">'+xref(def)+"</div>";
+  if(kjv) h+='<div class="lbl">KJV орчуулга</div><div class="kjvd">'+esc(kjv)+"</div>";
+  return h+"</div>";
+}
+function openStrong(nums,word){
+  if(!S) return;
+  $("#q").value=nums[0];
+  const box=$("#hits");
+  qClear();
+  box.innerHTML=sect("Лексикон","«"+esc(word)+"»")
+    +nums.map(strEntryHTML).join("");
+  openSheet("#shSearch");
+}
+async function downloadEnglish(){
+  if(!KJV_URL){ toast("Энэ хувилбарт боломжгүй"); return }
+  const ctl=$("#enCtl"), bar=$("#enBar"), fill=$("#enFill");
+  ctl.innerHTML='<button disabled>Татаж байна…</button>'; bar.classList.add("on");
+  try{
+    const res=await fetch(KJV_URL,{cache:"no-store"});
+    if(!res.ok) throw new Error("http"+res.status);
+    const total=+res.headers.get("content-length")||1270000;
+    const rd=res.body&&res.body.getReader(); let bytes;
+    if(rd){ const parts=[]; let got=0;
+      for(;;){const{done,value}=await rd.read(); if(done)break;
+        parts.push(value); got+=value.length; fill.style.width=Math.min(99,got/total*100)+"%"}
+      bytes=new Uint8Array(got); let o=0; for(const p of parts){bytes.set(p,o);o+=p.length}
+    } else { bytes=new Uint8Array(await res.arrayBuffer()) }
+    // verify before storing - never keep a truncated Bible
+    const buf=await gunzip(bytes);
+    const d=JSON.parse(new TextDecoder().decode(buf));
+    let tv=0; for(const b of d) for(const c of b) tv+=c.length;
+    if(d.length!==EXPECT_BOOKS||tv!==EXPECT_VERSES) throw new Error("бүрэн бус");
+    await idbOp("readwrite",st=>st.put(bytes,KJV_KEY));
+    E=d; store.set("en",1); fill.style.width="100%";
+    toast("Англи хувилбар бэлэн"); render();
+  }catch(e){ toast("Татаж чадсангүй: "+e.message) }
+  bar.classList.remove("on"); fill.style.width="0";
+  buildEnCtl();
+}
+async function removeEnglish(){
+  if(!confirm("Англи хувилбарыг устгах уу?\n\n"
+    +"Дахин авахын тулд интернэт хэрэгтэй (1.2 МБ).")) return;
+  await idbOp("readwrite",st=>st.delete(KJV_KEY));
+  E=null; store.set("en",0); buildEnCtl();
+  render(); toast("Устгагдлаа");
+}
+function buildEnCtl(){
+  const row=$("#enRow"), ctl=$("#enCtl"), note=$("#enNote"), on=!!store.get("en",0);
+  if(!row||!ctl||!note) return;
+  // A download can only be kept if a persistent store is available. Chrome does
+  // allow IndexedDB on file:// in current versions, so test rather than assume.
+  if(!INLINE_KJV && (!KJV_URL || MSTORE!=="idb")){
+    row.style.display="none"; return
+  }
+  if(INLINE_KJV){
+    note.textContent="Программд суулгагдсан";
+    ctl.innerHTML='<button id="enOn" aria-pressed="'+on+'">Асаах</button>'+
+                  '<button id="enOff" aria-pressed="'+!on+'">Унтраах</button>';
+  }else if(E){
+    note.textContent="Татсан · KJV 1769";
+    ctl.innerHTML='<button id="enOn" aria-pressed="'+on+'">Асаах</button>'+
+                  '<button id="enOff" aria-pressed="'+!on+'">Унтраах</button>'+
+                  '<button id="enDel" title="Устгах">🗑</button>';
+  }else{
+    note.textContent=(/^https?:/.test(KJV_URL)&&KJV_URL.indexOf(location.origin)!==0)
+      ? "Татаж аваагүй · 1.2 MB · интернэт шаардлагатай"
+      : "Татаж аваагүй · 1.2 MB";
+    ctl.innerHTML='<button id="enGet">Татах</button>';
+  }
+  const g=$("#enGet"); if(g) g.onclick=downloadEnglish;
+  const d=$("#enDel"); if(d) d.onclick=removeEnglish;
+  const a=$("#enOn"); if(a) a.onclick=()=>{store.set("en",1);buildEnCtl();render()};
+  const b=$("#enOff"); if(b) b.onclick=()=>{store.set("en",0);buildEnCtl();render()};
+}
+
+async function boot(){
+  try{
+    if(typeof DecompressionStream!=="function") throw new Error("nodecomp");
+    let gz;
+    if(INLINE_DATA){
+      setBar(25);
+      gz=Uint8Array.from(atob(INLINE_DATA),c=>c.charCodeAt(0));
+    }else{
+      const res=await fetch(DATA_URL,{cache:"force-cache"});
+      if(!res.ok) throw new Error("http"+res.status);
+      const total=+res.headers.get("content-length")||1740000;
+      const reader=res.body&&res.body.getReader();
+      if(reader){
+        const parts=[]; let got=0;
+        for(;;){const{done,value}=await reader.read(); if(done)break;
+          parts.push(value); got+=value.length; setBar(Math.min(70,got/total*70))}
+        gz=new Blob(parts);
+      }else{ gz=await res.blob(); setBar(70) }
+    }
+    setBar(80);
+    const buf=await gunzip(gz);
+    setBar(92);
+    B=JSON.parse(new TextDecoder().decode(buf)).books;
+    if(!Array.isArray(B)||B.length!==EXPECT_BOOKS) throw new Error("books:"+(B&&B.length));
+    let tv=0; for(const b of B) for(const c of b.ch) tv+=c.length;
+    if(tv!==EXPECT_VERSES) throw new Error("verses:"+tv);
+    setBar(100);
+  }catch(e){
+    $("#bar").style.display="none";
+    $("#bootmsg").className="err";
+    $("#bootmsg").textContent = e.message==="nodecomp"
+      ? "Таны хөтөч хуучирсан байна. Chrome эсвэл Safari-г шинэчилнэ үү."
+      : "Библийн бичвэрийг ачаалж чадсангүй ("+e.message+"). "+
+        "Интернэтэд холбогдоод хуудсыг дахин нээнэ үү.";
+    return;
+  }
+  const last=store.get("last",[0,0]);
+  bi=Math.min(Math.max(0,last[0]),65);
+  ci=Math.min(Math.max(0,last[1]),B[bi].ch.length-1);
+  const stage=t=>{ const el=$("#bootmsg"); if(el) el.textContent=t };
+  // Everything below is optional. A failure here must not stop the Bible opening.
+  for(const [label,fn] of [["Англи хувилбар",loadEnglish],["Судалгааны багц",loadStrongs],
+                           ["Тэмдэглэл",mkInit]]){
+    stage(label+"…");
+    try{ await withTimeout(fn(),8000,label) }
+    catch(e){ console.warn("skipped "+label+":",e.message) }
+  }
+  try{
+    bookSort=store.get("bookSort","trad"); bookTest=bi<OT?"ot":"nt";
+    applyPrefs(); buildBooks(); buildStamp(); buildEnCtl(); buildStCtl(); buildColNames(); buildInstall();
+  }catch(e){ console.error("settings UI:",e) }
+  render();
+  $("#boot").style.display="none";
+}
+
+function esc(s){return s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}
+function verseText(runs){return runs.map(r=>r.t).join("")}
+function enTaggedHTML(segs){
+  return segs.map(sg=>{
+    const t=sg[0], nums=sg[1], ital=sg.length>2;
+    if(ital) return "<i>"+esc(t)+"</i>";          // KJV supplied word
+    return nums&&nums.length ? '<w data-s="'+nums.join(",")+'">'+esc(t)+"</w>" : esc(t);
+  }).join("");
+}
+function verseHTML(runs){
+  return runs.map(r=>{const t=esc(r.t);
+    if(r.c==="red")return '<span class="red">'+t+"</span>";
+    if(r.c==="sup")return '<i class="sup">'+t+"</i>";
+    if(r.i)return "<i>"+t+"</i>";
+    return t;}).join("");
+}
+function refOf(b,c,v){return B[b].mn+" "+(c+1)+":"+v}
+
+function render(scrollTo){
+  const bk=B[bi], ch=bk.ch[ci];
+  $("#curRef").textContent=bk.mn+" "+(ci+1);
+  document.title=bk.mn+" "+(ci+1)+" — Ариун Библи";
+  mkLoad();
+  const showEn=E&&store.get("en",0);
+  const ech=showEn?(E[bi]&&E[bi][ci]):null;
+  let h='<div class="chapnum">'+(ci+1)+"</div>";
+  for(const [v,runs] of ch){
+    let x=mkFind(bi,ci,v); if(x&&x.del) x=null;
+    const cls="v"+(x&&x.col?" hl"+x.col:"");
+    const flag=x?((x.bm?"🔖":"")+((x.note||"").trim()?"📝":"")):"";
+    h+='<p class="'+cls+'" id="v'+v+'" data-v="'+v+'"><b>'+v+"</b>"+verseHTML(runs)
+      +(flag?'<span class="flag">'+flag+"</span>":"")+"</p>";
+    if(ech){
+      const row=ech[v-1];
+      if(row&&row[0]===v){
+        const tagged=K&&K[bi]&&K[bi][ci]&&K[bi][ci][v-1];
+        h+='<p class="en" data-v="'+v+'"><b>'+v+"</b>"
+          +(tagged?enTaggedHTML(tagged):esc(row[1]))+"</p>";
+      }
+    }
+  }
+  $("#text").innerHTML=h;
+  $("#prev").disabled=(bi===0&&ci===0);
+  $("#next").disabled=(bi===65&&ci===bk.ch.length-1);
+  store.set("last",[bi,ci]);
+  if(scrollTo){const el=$("#v"+scrollTo); if(el){el.scrollIntoView({block:"center"});return}}
+  window.scrollTo(0,0);
+}
+function go(b,c,v){bi=b;ci=c;histPush(b,c,v);closeAll();render(v)}
+function step(d){
+  let b=bi,c=ci+d;
+  if(c<0){b--;if(b<0)return;c=B[b].ch.length-1}
+  if(c>=B[b].ch.length){b++;if(b>65)return;c=0}
+  bi=b;ci=c;histPush(b,c);render();
+}
+
+/* Reading history: the last 30 days of chapters opened, newest first. A pastor
+   moving across books mid-sermon can get back to any of them in two taps. */
+const HIST_DAYS=30, HIST_MAX=300;
+const CLOCK_SVG='<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 1.9"/></svg>';
+const TRASH_SVG='<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 7V5h4v2M6 7l1 13h10l1-13M10 11v6M14 11v6"/></svg>';
+/* Curated collections. Every reference was checked against the text before shipping.
+   These are read-only: they never mix into the reader's own history. */
+/* Installation steps per platform. A pastor with only an iPhone still has to be
+   able to talk somebody through installing on Android, so every platform is here
+   in Mongolian and English, whichever device is in the hand. */
+const INSTALL=[["android","Android","<h5>Android утас, таблет (Chrome)</h5>\n<ol>\n<li><b>Chrome</b> хөтчийг нээнэ. (Samsung Internet ч болно — доор үзнэ үү.)</li>\n<li>Дээд талын хаягийн мөрөнд аппын хаягийг бичнэ.</li>\n<li>Библийн бичвэр ачаалж дуустал хүлээнэ. <b>Анх удаа интернэт хэрэгтэй</b> —\n    ойролцоогоор 2 МБ.</li>\n<li>Баруун дээд буланд байгаа <b>⋮</b> (гурван цэг) товчийг дарна.</li>\n<li>Цэснээс <b>«Install app»</b> эсвэл <b>«Add to Home screen»</b> —\n    монголоор <b>«Апп суулгах»</b> / <b>«Нүүр дэлгэцэд нэмэх»</b> — гэснийг сонгоно.</li>\n<li>Гарч ирэх цонхон дээр <b>«Install»</b> / <b>«Суулгах»</b> дарна.</li>\n<li>Нүүр дэлгэцэд дүрс гарч ирнэ. Түүнийг дарж нээнэ.</li>\n</ol>\n<div class=\"tip\">Хэрэв ⋮ цэсэнд «Install app» харагдахгүй бол: хуудсыг бүрэн ачаалж\nдуустал хүлээгээд, дахин оролдоно уу. Chrome-ыг шинэчлэх шаардлагатай байж болно.</div>\n<h5>Samsung Internet хөтөч</h5>\n<ol>\n<li>Доод талын <b>≡</b> цэсийг дарна.</li>\n<li><b>«Add page to»</b> → <b>«Home screen»</b> сонгоно.</li>\n</ol>\n<div class=\"tip\">Суулгасны дараа интернэт <b>хэрэггүй</b>. Утсанд сүлжээ байхгүй газарт\nч Библи бүрэн ажиллана.</div>","<h5>Android phone or tablet (Chrome)</h5>\n<ol>\n<li>Open <b>Chrome</b>. (Samsung Internet also works — see below.)</li>\n<li>Type the app address into the bar at the top.</li>\n<li>Wait until the Bible text has finished loading. <b>Internet is needed this\n    first time only</b> — about 2 MB.</li>\n<li>Tap the <b>⋮</b> (three dots) at the top right.</li>\n<li>Choose <b>Install app</b>, or <b>Add to Home screen</b> if that is what it says.</li>\n<li>Tap <b>Install</b> in the box that appears.</li>\n<li>An icon appears on the home screen. Open it from there.</li>\n</ol>\n<div class=\"tip\">If <b>Install app</b> is missing from the menu, let the page finish\nloading and try again; Chrome may also need updating.</div>\n<h5>Samsung Internet</h5>\n<ol>\n<li>Tap the <b>≡</b> menu at the bottom.</li>\n<li>Choose <b>Add page to</b> → <b>Home screen</b>.</li>\n</ol>\n<div class=\"tip\">After installing, no internet is needed. The Bible works completely\noffline, anywhere.</div>"],["ios","iPhone · iPad","<h5>iPhone, iPad (заавал Safari)</h5>\n<div class=\"warn\"><b>Заавал Safari ашиглана.</b> iPhone дээр Chrome эсвэл бусад\nхөтчөөр апп суулгах боломжгүй.</div>\n<ol>\n<li><b>Safari</b> нээнэ.</li>\n<li>Аппын хаягийг бичиж орно.</li>\n<li>Библийн бичвэр ачаалж дуустал хүлээнэ. <b>Анх удаа интернэт хэрэгтэй.</b></li>\n<li>Дэлгэцийн <b>доод</b> талд байгаа <b>Хуваалцах</b> товчийг дарна — дээш заасан\n    сумтай дөрвөлжин <b>⬆</b>. (iPad дээр баруун <b>дээд</b> талд байна.)</li>\n<li>Цэсийг доош гүйлгэж <b>«Add to Home Screen»</b> — <b>«Нүүр дэлгэцэд нэмэх»</b> —\n    гэснийг олж дарна.</li>\n<li>Баруун дээд буланд <b>«Add»</b> / <b>«Нэмэх»</b> дарна.</li>\n<li>Нүүр дэлгэцэд дүрс гарна. <b>Үүнээс нээж хэрэглэнэ.</b></li>\n</ol>\n<div class=\"warn\"><b>Энэ алхмыг заавал хийнэ.</b> Зөвхөн Safari-д хавчуурга (bookmark)\nболгож үлдээвэл, долоо хоног нээхгүй тохиолдолд Apple таны тэмдэглэл, өнгө,\nтатсан Англи хувилбарыг устгадаг. Нүүр дэлгэцэд нэмсэн апп энэ дүрэмд\n<b>хамаарахгүй</b>.</div>","<h5>iPhone or iPad (Safari only)</h5>\n<div class=\"warn\"><b>Safari is required.</b> Chrome and other browsers on iPhone\ncannot install the app.</div>\n<ol>\n<li>Open <b>Safari</b>.</li>\n<li>Go to the app address.</li>\n<li>Wait for the Bible text to finish loading. <b>Internet is needed this first\n    time.</b></li>\n<li>Tap the <b>Share</b> button at the <b>bottom</b> of the screen — the square with\n    an arrow pointing up <b>⬆</b>. (On iPad it is at the <b>top right</b>.)</li>\n<li>Scroll down the menu and tap <b>Add to Home Screen</b>.</li>\n<li>Tap <b>Add</b> at the top right.</li>\n<li>An icon appears on the home screen. <b>Always open it from there.</b></li>\n</ol>\n<div class=\"warn\"><b>Do not skip this step.</b> If the app is only bookmarked in\nSafari, Apple deletes your notes, highlights and downloaded English text after\nseven days without opening it. An app added to the Home Screen is exempt.</div>"],["windows","Windows","<h5>Windows (Chrome)</h5>\n<ol>\n<li><b>Chrome</b> нээж, аппын хаягаар орно.</li>\n<li>Хуудас бүрэн ачаалахыг хүлээнэ.</li>\n<li>Хаягийн мөрний баруун талд <b>суулгах дүрс</b> (дэлгэц дээр доош сум) гарч ирвэл\n    түүнийг дарна.</li>\n<li>Эсвэл баруун дээд <b>⋮</b> → <b>«Cast, save, and share»</b> →\n    <b>«Install page as app…»</b> сонгоно.</li>\n<li><b>«Install»</b> дарна.</li>\n<li>Апп Start цэс болон ажлын хэсэгт нэмэгдэнэ.</li>\n</ol>\n<h5>Windows (Microsoft Edge)</h5>\n<ol>\n<li>Баруун дээд <b>⋯</b> → <b>«Apps»</b> → <b>«Install this site as an app»</b>.</li>\n<li><b>«Install»</b> дарна.</li>\n</ol>\n<div class=\"tip\">Firefox дээр апп болгон суулгах боломжгүй. Гэхдээ хөтчөөр\nхэвийн уншиж болно.</div>","<h5>Windows (Chrome)</h5>\n<ol>\n<li>Open <b>Chrome</b> and go to the app address.</li>\n<li>Let the page finish loading.</li>\n<li>If an <b>install icon</b> (a screen with a down arrow) appears at the right end\n    of the address bar, click it.</li>\n<li>Otherwise click <b>⋮</b> at the top right → <b>Cast, save, and share</b> →\n    <b>Install page as app…</b></li>\n<li>Click <b>Install</b>.</li>\n<li>The app is added to the Start menu and can be pinned to the taskbar.</li>\n</ol>\n<h5>Windows (Microsoft Edge)</h5>\n<ol>\n<li>Click <b>⋯</b> at the top right → <b>Apps</b> → <b>Install this site as an app</b>.</li>\n<li>Click <b>Install</b>.</li>\n</ol>\n<div class=\"tip\">Firefox cannot install web apps, but the site still reads normally\nin it.</div>"],["mac","Mac","<h5>Mac (Safari 17 ба түүнээс дээш)</h5>\n<ol>\n<li><b>Safari</b>-гаар аппын хаягаар орно.</li>\n<li>Дээд цэснээс <b>File</b> → <b>«Add to Dock…»</b> сонгоно.</li>\n<li>Нэрийг шалгаад <b>«Add»</b> дарна.</li>\n<li>Апп Dock болон Launchpad-д гарч ирнэ.</li>\n</ol>\n<h5>Mac (Chrome эсвэл Edge)</h5>\n<ol>\n<li>Аппын хаягаар орно.</li>\n<li>Хаягийн мөрний <b>суулгах дүрс</b>, эсвэл <b>⋮</b> →\n    <b>«Cast, save, and share»</b> → <b>«Install page as app…»</b>.</li>\n<li><b>«Install»</b> дарна. Апп Applications фолдерт нэмэгдэнэ.</li>\n</ol>\n<div class=\"tip\">macOS Sonoma-с өмнөх хувилбарын Safari дээр «Add to Dock» байхгүй.\nТэр тохиолдолд Chrome ашиглана уу.</div>","<h5>Mac (Safari 17 and later)</h5>\n<ol>\n<li>Open the app address in <b>Safari</b>.</li>\n<li>From the menu bar choose <b>File</b> → <b>Add to Dock…</b></li>\n<li>Check the name and click <b>Add</b>.</li>\n<li>The app appears in the Dock and in Launchpad.</li>\n</ol>\n<h5>Mac (Chrome or Edge)</h5>\n<ol>\n<li>Go to the app address.</li>\n<li>Click the <b>install icon</b> in the address bar, or <b>⋮</b> →\n    <b>Cast, save, and share</b> → <b>Install page as app…</b></li>\n<li>Click <b>Install</b>. The app is added to your Applications folder.</li>\n</ol>\n<div class=\"tip\">Safari before macOS Sonoma has no <b>Add to Dock</b>. Use Chrome on\nthose machines.</div>"],["after","Дараа нь · After","<h5>Суулгасны дараа</h5>\n<ol>\n<li>Аппыг нэг удаа <b>интернэттэй үед</b> нээнэ. Бичвэр бүрэн хадгалагдана.</li>\n<li>Хүсвэл <b>Тохиргоо</b>-оос Англи хувилбар (1.2 МБ) болон Судалгааны багц\n    (2.8 МБ) татаж болно. Эдгээрт интернэт нэг удаа хэрэгтэй.</li>\n<li>Үүний дараа <b>интернэт огт шаардлагагүй</b>.</li>\n</ol>\n<h5>Хуваалцах</h5>\n<ol>\n<li>Аппын доод хэсгийн <b>QR код</b>-ыг бусдад уншуулж болно.</li>\n<li>Эсвэл <b>«Холбоосыг хуулах»</b> дарж Messenger, WhatsApp-аар илгээнэ.</li>\n<li>Сүлжээгүй газарт: нэг файлтай хувилбарыг (standalone) шууд илгээж болно.</li>\n</ol>","<h5>After installing</h5>\n<ol>\n<li>Open the app once <b>while online</b>. The text is then stored on the device.</li>\n<li>Optionally add the English KJV (1.2 MB) and the study pack (2.8 MB) from\n    <b>Settings</b>. Each needs internet once.</li>\n<li>After that <b>no internet is needed at all</b>.</li>\n</ol>\n<h5>Sharing it</h5>\n<ol>\n<li>Show someone the <b>QR code</b> further down this screen.</li>\n<li>Or use <b>Copy link</b> and send it by Messenger or WhatsApp.</li>\n<li>Where there is no signal at all, send the single-file version instead.</li>\n</ol>"]];
+let instTab="android";
+function buildInstall(){
+  const tabs=$("#instTabs"), body=$("#instBody");
+  if(!tabs||!body) return;
+  tabs.innerHTML=INSTALL.map(g=>
+    '<button data-it="'+g[0]+'" aria-pressed="'+(instTab===g[0])+'">'+esc(g[1])
+    +"</button>").join("");
+  const g=INSTALL.find(x=>x[0]===instTab)||INSTALL[0];
+  body.innerHTML=g[2]+'<hr style="border:0;border-top:1px solid var(--rule);margin:16px auto">'
+    +g[3];
+}
+function installPlainText(){
+  const strip=h=>h.replace(/<h5>/g,"\n").replace(/<\/h5>/g,"\n")
+    .replace(/<li>/g,"  - ").replace(/<\/li>/g,"\n")
+    .replace(/<div class="warn">/g,"\n! ").replace(/<div class="tip">/g,"\n* ")
+    .replace(/<[^>]+>/g,"").replace(/\n{3,}/g,"\n\n").trim();
+  return INSTALL.map(g=>"=== "+g[1]+" ===\n"+strip(g[2])+"\n\n--- English ---\n"
+    +strip(g[3])).join("\n\n")+"\n\n"+APP_URL;
+}
+
+const TOPICS=[["mission","Номлол","Mission",[[0,12,1,3],[1,19,5,6],[18,22,27],[18,67,1,2],[18,96,3],[22,6,8],[22,42,6],[22,49,6],[22,52,7],[22,55,5],[23,1,5],[26,7,14],[31,4,10,11],[34,2,14],[38,1,11],[39,9,37,38],[39,24,14],[39,28,18,20],[40,16,15],[41,24,46,47],[42,3,16],[42,20,21],[43,1,8],[43,13,47],[43,17,26,27],[44,10,13,15],[44,15,20,21],[46,5,18,20],[53,2,3,4],[65,7,9]]],["nativity","Христийн Мэндэлсний Баяр","Nativity",[[0,3,15],[22,7,14],[22,9,6,7],[32,5,2],[39,1,18,23],[39,2,1,2],[39,2,9,11],[41,1,26,33],[41,1,46,49],[41,2,1,7],[41,2,8,14],[41,2,15,20],[41,2,25,32],[42,1,1,5],[42,1,14],[47,4,4,5],[49,2,5,8],[53,3,16]]],["resurrection","Амилалт","Resurrection",[[17,19,25,26],[18,16,10],[22,53,10,11],[39,28,1,10],[40,16,1,7],[41,24,1,8],[41,24,36,43],[42,11,25,26],[42,20,11,18],[42,20,24,29],[43,2,24],[43,4,33],[44,6,4,5],[44,8,11],[45,15,3,8],[45,15,20,22],[45,15,54,57],[59,1,3,4],[65,1,17,18]]],["comfort","Тайтгарал","Comfort",[[4,31,6],[5,1,9],[18,46,1,2],[18,55,22],[18,73,26],[18,94,19],[18,121,1,4],[22,26,3],[22,40,29,31],[22,41,10],[22,43,2],[24,3,22,23],[39,6,34],[39,11,28,30],[42,14,27],[42,16,33],[44,8,28],[46,1,3,4],[46,4,16,18],[46,12,9],[49,4,6,7],[49,4,13],[59,5,7]]],["healing","Эдгэрэл","Healing",[[1,15,26],[18,30,2],[18,41,3],[18,103,1,3],[18,107,19,20],[18,147,3],[19,17,22],[22,38,16,17],[22,53,5],[23,17,14],[23,30,17],[38,4,2],[39,8,16,17],[39,9,35],[40,5,34],[41,4,40],[43,3,16],[43,10,38],[58,5,14,16],[59,2,24],[63,1,2]]],["condolence","Эмгэнэл ба найдвар","Condolence and hope",[[9,12,23],[17,1,21],[17,19,25,27],[18,23,1,6],[18,34,18],[18,116,15],[18,147,3],[20,3,1,4],[22,25,8],[22,57,1,2],[39,5,4],[42,11,25,26],[42,14,1,3],[44,8,38,39],[45,15,54,57],[46,5,1],[46,5,8],[49,1,21,23],[51,4,13,18],[54,4,7,8],[65,14,13],[65,21,4]]],["freedom","Эрх чөлөө ба биеэ захирах","Freedom and self-control",[[18,40,1,3],[18,107,13,16],[19,20,1],[19,23,29,32],[19,25,28],[22,5,11],[22,61,1],[23,32,27],[41,4,18],[42,8,31,32],[42,8,36],[44,6,12,14],[44,6,16,18],[44,8,1,2],[44,12,1,2],[44,13,13,14],[45,6,12],[45,6,19,20],[45,9,25,27],[45,10,13],[47,5,1],[47,5,16,17],[47,5,22,23],[48,5,18],[55,2,11,12],[57,12,1,2],[58,1,12,15],[58,4,7],[59,5,8,9],[60,1,5,7],[61,1,9]]],["encourage","Урам зориг","Encouragement",[[4,31,8],[5,1,9],[8,30,6],[13,15,7],[15,8,10],[18,27,14],[18,31,24],[18,138,3],[22,40,31],[22,41,13],[35,3,17],[44,15,13],[45,15,58],[47,6,9],[48,3,16,17],[49,1,6],[49,4,13],[52,3,13],[57,10,35,36],[57,12,1,2],[59,5,10]]],["wisdom","Мэргэн ухаан","Wisdom",[[17,28,28],[18,111,10],[18,119,105],[19,1,7],[19,2,6],[19,3,5,6],[19,4,7],[19,9,10],[19,11,2],[19,13,20],[19,15,22],[19,16,9],[19,19,20],[19,27,17],[20,7,12],[22,55,8,9],[23,33,3],[39,7,24,25],[45,1,25],[50,2,3],[58,1,5],[58,3,17]]],["money","Санхүү ба өгөөмөр сэтгэл","Money and generosity",[[4,8,18],[19,3,9,10],[19,11,24,25],[19,13,11],[19,21,20],[19,22,7],[19,28,20],[20,5,10],[38,3,10],[39,6,19,21],[39,6,24],[39,6,31,33],[41,12,15],[41,16,10,11],[43,20,35],[44,13,8],[46,9,6,8],[49,4,11,12],[49,4,19],[53,6,6,10],[53,6,17,19],[57,13,5]]],["marriage","Гэрлэлт ба гэр бүл","Marriage and family",[[0,2,18],[0,2,24],[19,5,18,19],[19,12,4],[19,18,22],[19,31,10,12],[20,4,9,12],[38,2,14,15],[39,19,4,6],[40,10,9],[45,7,3,5],[45,13,4,7],[48,4,2,3],[48,4,32],[48,5,21],[48,5,25],[48,5,28,29],[48,5,33],[50,3,12,14],[50,3,18,21],[55,2,4,5],[57,13,4],[59,3,1,7],[61,4,7]]],["parenting","Хүүхэд хүмүүжүүлэх","Parenting",[[4,6,6,7],[5,24,15],[18,78,4,7],[18,127,3,5],[19,1,8,9],[19,13,24],[19,22,6],[19,29,15],[19,29,17],[22,54,13],[38,4,6],[39,19,14],[41,2,52],[48,6,1,3],[48,6,4],[50,3,20,21],[54,1,5],[54,3,14,15],[57,12,11],[63,1,4]]],["prayer","Залбирал","Prayer",[[12,16,11],[13,7,14],[18,34,17],[18,55,17],[18,62,8],[18,145,18],[23,29,12,13],[23,33,3],[39,6,5,8],[39,6,9,13],[39,7,7,8],[40,11,24],[41,18,1],[42,15,7],[44,8,26],[48,6,18],[49,4,6,7],[50,4,2],[51,5,17],[57,4,16],[58,5,16],[61,5,14,15]]],["newbeliever","Шинэ итгэгч","New believer",[[42,1,12],[42,10,28,29],[44,8,1],[44,8,16],[44,12,1,2],[45,6,19,20],[46,5,17],[47,2,20],[48,1,7],[48,2,10],[49,1,6],[50,1,13,14],[54,3,16,17],[57,10,24,25],[59,2,2],[61,1,9],[61,5,11,13]]],["gospel","Сайнмэдээ түгээх","Sharing the gospel (in order)",[[44,3,23],[44,6,23],[44,5,8],[42,3,16],[48,2,8,9],[44,10,9,10],[44,10,13],[42,1,12],[65,3,20],[46,5,17],[43,16,31],[61,5,13]]],["communion","Ариун Ёслол","Holy Communion",[[1,12,13,14],[18,116,12,13],[22,53,5],[39,26,26,30],[40,14,22,26],[41,22,14,20],[42,6,35],[42,6,53,58],[43,2,42],[43,2,46,47],[43,20,7],[45,5,7,8],[45,10,16,17],[45,11,23,26],[45,11,27,29],[57,9,22],[57,10,19,22],[61,1,7],[65,19,9]]],["salvation","Аврал","Salvation",[[22,1,18],[22,53,5,6],[23,29,11],[25,36,26],[42,1,12],[42,3,3],[42,3,16],[42,5,24],[42,14,6],[43,4,12],[43,16,31],[44,3,23],[44,5,8],[44,6,23],[44,10,9,10],[46,5,17],[48,2,8,9],[55,3,5],[61,1,9],[65,3,20]]],["praise","Талархал ба магтаал","Thanksgiving and praise",[[12,16,34],[18,34,1,3],[18,95,1,3],[18,100,1,5],[18,103,1,5],[18,107,1],[18,118,24],[18,136,1],[18,145,1,3],[18,150,1,6],[22,12,4,5],[48,5,19,20],[49,4,4],[50,3,15,17],[51,5,16,18],[57,13,15],[65,5,12,13]]]];
+let topicKey="";
+function topicRefText(b,c,v,e){
+  const rows=B[b]&&B[b].ch[c-1]; if(!rows) return "";
+  const out=[];
+  for(let i=v;i<=(e||v);i++){ const r=rows.find(x=>x[0]===i); if(r) out.push(verseText(r[1])) }
+  return out.join(" ");
+}
+function topicRefEn(b,c,v,e){
+  if(!E) return "";
+  const out=[];
+  for(let i=v;i<=(e||v);i++){ const t=enText(b,c-1,i); if(t) out.push(t) }
+  return out.join(" ");
+}
+function buildTopics(){
+  const t=TOPICS.find(x=>x[0]===topicKey);
+  if(!t){ $("#histList").innerHTML=""; return }
+  const showEn=E&&store.get("en",0);
+  $("#histList").innerHTML=t[3].map(([b,c,v,e])=>{
+    const mnT=topicRefText(b,c,v,e), enT=showEn?topicRefEn(b,c,v,e):"";
+    const ref=B[b].mn+" "+c+":"+v+(e?"-"+e:"");
+    return '<div class="tpc" data-b="'+b+'" data-c="'+(c-1)+'" data-v="'+v+'">'
+      +"<b>"+esc(ref)+"  ·  "+esc(B[b].en+" "+c+":"+v+(e?"-"+e:""))+"</b>"
+      // curated passages are read aloud, so they are never truncated
+      +"<p>"+esc(mnT)+"</p>"
+      +(enT?'<p class="te">'+esc(enT)+"</p>":"")
+      +"</div>";
+  }).join("");
+}
+let histView="live";
+function histAll(){
+  const cut=Date.now()-HIST_DAYS*86400000;
+  return (store.get("hist",[])||[])
+    .filter(e=>Array.isArray(e)&&e[3]>cut)
+    .map(e=>e.length>4?e:[e[0],e[1],e[2],e[3],0]);   // older records had no del field
+}
+function histLoad(){ return histAll().filter(e=>!e[4]) }
+function histBin(){ return histAll().filter(e=>e[4]) }
+function histWrite(rows){ store.set("hist",rows) }
+function histSet(b,c,del){
+  const rows=histAll();
+  for(const e of rows) if(e[0]===b&&e[1]===c) e[4]=del;
+  histWrite(rows);
+}
+function histPurgeOne(b,c){
+  histWrite(histAll().filter(e=>!(e[0]===b&&e[1]===c&&e[4])));
+}
+function histPurgeBin(){
+  const n=histBin().length;
+  histWrite(histAll().filter(e=>!e[4]));
+  return n;
+}
+function histPush(b,c,v){
+  if(!B[b]||!B[b].ch[c]) return;
+  const now=Date.now();
+  // re-reading a chapter moves it back to the top rather than duplicating
+  const out=histAll().filter(e=>!(e[0]===b&&e[1]===c));
+  out.unshift([b,c,v||0,now,0]);        // revisiting also lifts it out of the bin
+  if(out.length>HIST_MAX) out.length=HIST_MAX;
+  store.set("hist",out);
+}
+function histDayLabel(ts){
+  const d=new Date(ts), t=new Date();
+  const same=(a,b)=>a.toDateString()===b.toDateString();
+  if(same(d,t)) return "Өнөөдөр";
+  const y=new Date(t.getTime()-86400000);
+  if(same(d,y)) return "Өчигдөр";
+  return d.getFullYear()+"."+String(d.getMonth()+1).padStart(2,"0")
+    +"."+String(d.getDate()).padStart(2,"0");
+}
+function buildHist(){
+  // a visiting team reads the English; a Mongolian reader does not need it on screen
+  const bi2=E&&store.get("en",0);
+  const active=TOPICS.find(t=>t[0]===topicKey);
+  $("#topicSummary").innerHTML= (histView==="topic"&&active)
+    ? '📑 <b>'+esc(active[1])+"</b>"+(bi2?' <span style="color:var(--muted)">· '+esc(active[2])
+        +"</span>":"")+' <span style="opacity:.6;font-weight:400">— солих</span>'
+    : "📑 Сэдэвчилсэн эшлэл";
+  $("#topicTabs").innerHTML=TOPICS.map(t=>
+    '<button data-tp="'+t[0]+'" aria-pressed="'+(histView==="topic"&&topicKey===t[0])+'">'
+    +esc(t[1])+(bi2?' <span style="color:var(--muted);font-weight:400">· '+esc(t[2])
+      +"</span>":"")
+    +"</button>").join("");
+  if(histView==="topic"){
+    const tw=$("#topicWrap");
+    if(tw) tw.open=false;              // collapse so the passages are right there
+    histClearLabel();
+    $("#histTabs").innerHTML=
+      '<button data-hv="live" aria-pressed="false">'+CLOCK_SVG+' Түүх</button>'
+      +'<button data-hv="trash" aria-pressed="false">'+TRASH_SVG+' Хогийн сав</button>';
+    buildTopics();
+    return;
+  }
+  const binN=histBin().length;
+  $("#histTabs").innerHTML=
+    '<button data-hv="live" aria-pressed="'+(histView==="live")+'">'+CLOCK_SVG
+    +' Түүх</button>'
+    +'<button data-hv="trash" aria-pressed="'+(histView==="trash")+'">'+TRASH_SVG
+    +' Хогийн сав'+(binN?" ("+binN+")":"")+"</button>";
+  histClearLabel();
+  const trash=histView==="trash";
+  const rows=trash?histBin():histLoad();
+  if(!rows.length){
+    $("#histList").innerHTML=trash
+      ? '<div class="empty">Хогийн сав хоосон.</div>'
+      : '<div class="empty">Түүх хоосон.<br>Уншсан бүлгүүд энд 30 хоног хадгалагдана.'
+        +'<br><br><small>Устгах: хулганы баруун товч, эсвэл зүүн тийш шудрах.</small></div>';
+    return;
+  }
+  let h="", day="";
+  for(const [b,c,v,t] of rows){
+    const d=histDayLabel(t);
+    if(d!==day){ day=d; h+='<div class="hday">'+esc(d)+"</div>" }
+    const cur=(!trash&&b===bi&&c===ci);
+    const tm=new Date(t);
+    h+='<div class="hwrap"><div class="hrow'+(cur?" cur":"")+'" data-b="'+b+'" data-c="'+c+'"'
+      +(v?' data-v="'+v+'"':"")+'><b>'+esc(B[b].mn+" "+(c+1)+(v?":"+v:""))+"</b>"
+      +"<small>"+esc(B[b].en)+"</small>"
+      +(trash
+        ? '<span class="act"><button data-hres="1">↩ Сэргээх</button>'
+          +'<button class="danger" data-hpur="1">Бүр устгах</button></span>'
+        : '<span class="tm">'+String(tm.getHours()).padStart(2,"0")+":"
+          +String(tm.getMinutes()).padStart(2,"0")+"</span>")
+      +"</div></div>";
+  }
+  $("#histList").innerHTML=h;
+}
+
+/* Two steps, deliberately: pick a book, then pick a chapter. One combined screen
+   made the header reference and the ☰ button open the same thing, and left the
+   reader scrolling to find the chapter they were already in. */
+let bookSort="trad", bookTest="ot", pendBook=0;
+function bookOrder(){
+  const from=bookTest==="ot"?0:OT, to=bookTest==="ot"?OT:66;
+  const idx=[];
+  for(let i=from;i<to;i++) idx.push(i);
+  if(bookSort==="alpha") idx.sort((a,b)=>B[a].mn.localeCompare(B[b].mn,"mn"));
+  return idx;
+}
+function buildBooks(){
+  $("#tabOT").setAttribute("aria-selected",bookTest==="ot");
+  $("#tabNT").setAttribute("aria-selected",bookTest==="nt");
+  $("#sortTrad").setAttribute("aria-pressed",bookSort==="trad");
+  $("#sortAlpha").setAttribute("aria-pressed",bookSort==="alpha");
+  $("#bookList").innerHTML=bookOrder().map(i=>{
+    const b=B[i];
+    return '<button data-b="'+i+'"><b>'+esc(b.mn)+"</b><small>"+esc(b.en)
+      +'</small><span class="n">'+b.ch.length+"</span></button>";
+  }).join("");
+}
+function buildChaps(b){
+  pendBook=b;
+  $("#chapTitle").textContent=B[b].mn+" · "+B[b].en;
+  $("#chapList").innerHTML=B[b].ch.map((_,k)=>
+    '<button data-c="'+k+'"'+(b===bi&&k===ci?' aria-current="true"':"")+">"+(k+1)
+    +"</button>").join("");
+  const cur=$('#chapList button[aria-current="true"]');
+  if(cur) setTimeout(()=>cur.scrollIntoView({block:"center"}),0);
+}
+
+/* ---------------- concordance ----------------
+   Mongolian is agglutinative and its suffixes attach at the end, so a prefix
+   match gathers a word's inflected forms without any stemming guesswork:
+   "есүс" finds есүс, есүсийн, есүсийг, есүст, есүсээр, есүстэй, есүсээс.
+   Only a form->count table is held in memory; occurrences are found by a single
+   scan when a word is chosen, which keeps the footprint small on cheap phones. */
+const RE_MN=/[А-ЯЁӨҮа-яёөү]+/g, RE_EN=/[A-Za-z]+/g;
+let CIDX={mn:null,en:null}, concWord="", concForm="";
+
+function concTokens(lang){ return lang==="en"?RE_EN:RE_MN }
+function concTextOf(lang,b,c,v,runs){
+  return lang==="en"?enText(b,c,v):verseText(runs);
+}
+function buildIndex(lang){          // synchronous - used once the index exists
+  return CIDX[lang];
+}
+/* Built one book at a time with a yield between, so the phone stays responsive
+   and can paint a progress line rather than appearing frozen. */
+function buildIndexAsync(lang,onProgress){
+  if(CIDX[lang]) return Promise.resolve(CIDX[lang]);
+  const re=concTokens(lang), counts=Object.create(null);
+  return new Promise(resolve=>{
+    let b=0;
+    (function step(){
+      const until=Math.min(66,b+6);
+      for(;b<until;b++){
+        for(let c=0;c<B[b].ch.length;c++)for(const [v,runs] of B[b].ch[c]){
+          const t=concTextOf(lang,b,c,v,runs);
+          if(!t) continue;
+          re.lastIndex=0;
+          let m;
+          while((m=re.exec(t))){ const w=m[0].toLowerCase(); counts[w]=(counts[w]||0)+1 }
+        }
+      }
+      if(onProgress) onProgress(Math.round(b/66*100));
+      if(b<66) setTimeout(step,0);
+      else { CIDX[lang]=counts; resolve(counts) }
+    })();
+  });
+}
+function concFormsFor(lang,prefix){
+  const counts=buildIndex(lang), out=[];
+  for(const w in counts) if(w.startsWith(prefix)) out.push([w,counts[w]]);
+  out.sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]));
+  return out;
+}
+function concOccurrences(lang,forms,cap){
+  const set=new Set(forms), re=concTokens(lang), out=[];
+  let n=0;
+  for(let b=0;b<66;b++)for(let c=0;c<B[b].ch.length;c++)for(const [v,runs] of B[b].ch[c]){
+    const t=concTextOf(lang,b,c,v,runs);
+    if(!t) continue;
+    re.lastIndex=0;
+    let m,hit=-1,len=0;
+    while((m=re.exec(t))){
+      if(set.has(m[0].toLowerCase())){ hit=m.index; len=m[0].length; break }
+    }
+    if(hit<0) continue;
+    n++;
+    if(out.length<cap) out.push([b,c,v,t,hit,len]);
+  }
+  return {rows:out,total:n};
+}
+function concSnippet(t,at,len){
+  const pad=58;
+  let s0=Math.max(0,at-pad), s1=Math.min(t.length,at+len+pad);
+  return (s0>0?"…":"")+esc(t.slice(s0,at))+"<mark>"+esc(t.slice(at,at+len))+"</mark>"
+        +esc(t.slice(at+len,s1))+(s1<t.length?"…":"");
+}
+/* Raw top-frequency words are all particles (нь, бас, ч), which teach nothing.
+   These are content words checked to exist in this translation. */
+const CONC_EXAMPLES=["шүтээн","есүс","хайр","итгэ","гэм","сүнс","мөнх","баяр",
+                     "хаанчлал","ерөө","амьдрал"];
+function concFrequent(lang){
+  const counts=CIDX[lang]||{};
+  return CONC_EXAMPLES.map(w=>{
+    let n=0; for(const k in counts) if(k.startsWith(w)) n+=counts[k];
+    return [w,n];
+  }).filter(x=>x[1]>0);
+}
+/* ---- Book Chapter:Verse lookup, Mongolian or English ---- */
+/* Abbreviations that are NOT simply a prefix of the full name. */
+const ABBR={mt:39,mk:40,mrk:40,lk:41,jn:42,jhn:42,jas:58,phm:56,php:50,dt:4,jdg:6,
+  ezk:25,sos:21,sng:21,rv:65,"1jn":61,"2jn":62,"3jn":63,"1pt":59,"2pt":60,"1sm":8,"2sm":9};
+const ROMAN={i:"1",ii:"2",iii:"3"};
+function refKey(x){
+  return x.toLowerCase().replace(/[.\u2019']/g," ")
+          .replace(/^(iii|ii|i)\s+/,(m,r)=>ROMAN[r]+" ")
+          .replace(/\s+/g,"");
+}
+function parseRef(raw){
+  const q=raw.trim().replace(/\s+/g," ");
+  const m=q.match(/^(.*?[^\s\d])\s*(\d+)(?:\s*[:.\s]\s*(\d+))?\s*$/);
+  if(!m) return null;
+  const key=refKey(m[1]), ch=+m[2], vs=m[3]?+m[3]:null;
+  if(key.length<2) return null;
+  if(ABBR[key]!==undefined) return {hits:[ABBR[key]],ch,vs};
+  const hits=[];
+  for(let i=0;i<66;i++){
+    if(refKey(B[i].mn).startsWith(key)||refKey(B[i].en).startsWith(key)) hits.push(i);
+  }
+  return hits.length?{hits,ch,vs}:null;
+}
+function refCard(b,ch,vs){
+  const bk=B[b];
+  if(ch<1||ch>bk.ch.length) return "";
+  const rows=bk.ch[ch-1];
+  const v=vs&&rows.some(x=>x[0]===vs)?vs:null;
+  const row=v?rows.find(x=>x[0]===v):rows[0];
+  const t=row?verseText(row[1]):"";
+  const e=v&&E?enText(b,ch-1,v):"";
+  return '<div class="refcard" data-b="'+b+'" data-c="'+(ch-1)+'"'+(v?' data-v="'+v+'"':'')+'>'
+    +'<span class="go">Нээх →</span><b>'+esc(bk.mn+" "+ch+(v?":"+v:""))+" · "+esc(bk.en)+"</b>"
+    +"<p>"+esc(t.length>150?t.slice(0,150)+"…":t)+"</p>"
+    +(e?'<p class="re">'+esc(e.length>150?e.slice(0,150)+"…":e)+"</p>":"")+"</div>";
+}
+
+const norm=s=>s.toLowerCase().replace(/ё/g,"е").replace(/\s+/g," ").trim();
+let stimer;
+function enText(b,c,v){
+  if(!E) return "";
+  const ch=E[b]&&E[b][c]; if(!ch) return "";
+  const row=ch[v-1];
+  return (row&&row[0]===v)?row[1]:"";
+}
+/* The Mongolian text is Cyrillic and the KJV is Latin, with no overlap, so the
+   script the user types already decides which text can possibly match. */
+function detectLang(q){
+  if(/[\u0400-\u04FF]/.test(q)) return "mn";
+  if(/[A-Za-z]/.test(q)) return "en";
+  return "both";
+}
+
+function search(){
+  const raw=$("#q").value, q=norm(raw);
+  $("#hits").innerHTML="";
+  // A reference like "Gal 2:20" or "Гал 2:20" takes priority over word search.
+  const r=parseRef(raw);
+  if(r){
+    $("#qlang").textContent="";
+    $("#qinfo").style.display="none";
+    if(r.hits.length===1){
+      const card=refCard(r.hits[0],r.ch,r.vs);
+      if(card){ $("#hits").innerHTML=card; return }
+      $("#qinfo").style.display="block";
+      $("#qinfo").textContent=B[r.hits[0]].mn+" номд "+r.ch+"-р бүлэг байхгүй ("
+        +B[r.hits[0]].ch.length+" бүлэгтэй).";
+      return;
+    }
+    const opts=r.hits.slice(0,12).map(i=>
+      '<button data-rb="'+i+'" data-rc="'+r.ch+'"'+(r.vs?' data-rv="'+r.vs+'"':'')+'>'
+      +esc(B[i].mn)+" · "+esc(B[i].en)+"</button>").join("");
+    $("#hits").innerHTML='<div class="empty" style="padding:6px 2px 0">Аль ном бэ?</div>'
+      +'<div class="refopts">'+opts+"</div>";
+    return;
+  }
+  if(q.length<2){$("#qinfo").style.display="block";
+    $("#qinfo").textContent="Дор хаяж хоёр үсэг бичнэ үү.";return}
+  const lang=detectLang(raw);
+  if(lang==="en"&&!E){
+    $("#qlang").textContent="";
+    $("#qinfo").style.display="block";
+    $("#qinfo").textContent="Англи үсгээр хайхын тулд эхлээд Англи хувилбарыг татна уу (Тохиргоо → Aa).";
+    return;
+  }
+  const wantMn=lang!=="en", wantEn=!!E&&lang!=="mn";
+  $("#qlang").textContent = lang==="en" ? "English (KJV) дотор хайж байна"
+                          : lang==="mn" ? "Монгол бичвэрээс хайж байна" : "";
+  const out=[];let n=0;
+  for(let b=0;b<66;b++)for(let c=0;c<B[b].ch.length;c++)for(const [v,runs] of B[b].ch[c]){
+    let hitMn=false,hitEn=false,t="",e="";
+    if(wantMn){ t=verseText(runs); hitMn=norm(t).includes(q) }
+    if(wantEn){ e=enText(b,c,v); hitEn=e.toLowerCase().includes(q) }
+    if(hitMn||hitEn){
+      n++;
+      if(out.length<300){
+        if(!t) t=verseText(runs);
+        if(!e&&E) e=enText(b,c,v);
+        out.push([b,c,v,t,e,hitMn,hitEn]);
+      }
+    }
+  }
+  $("#qinfo").style.display=n?"none":"block";
+  if(!n){$("#qinfo").textContent='"'+raw+'" олдсонгүй.';return}
+  const re=new RegExp("("+raw.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","gi");
+  const hl=x=>esc(x).replace(re,"<mark>$1</mark>");
+  $("#hits").innerHTML=(n>out.length
+      ?'<div class="empty" style="padding:10px">'+n+" илэрц. Эхний "+out.length+"-г харуулж байна.</div>":"")
+    +out.map(([b,c,v,t,e,hm,he])=>{
+      let h='<div class="hit" data-b="'+b+'" data-c="'+c+'" data-v="'+v+'"><b>'+esc(refOf(b,c,v))+"</b>";
+      h+="<p>"+(hm?hl(t):esc(t))+"</p>";
+      if(lang!=="mn"&&e) h+='<p class="he">'+(he?hl(e):esc(e))+"</p>";
+      return h+"</div>";
+    }).join("");
+}
+
+/* ---------------- markers: bookmark + highlight + note + tags ----------------
+   One record per verse, following the model used by the established Bible apps:
+   {b,c,v, bm, col, note, tags[], t(created), m(modified)}                        */
+const COLNAMES=["","Шар","Ногоон","Цэнхэр","Ягаан","Улбар шар","Улаан","Нил ягаан","Номин","Цайвар ногоон","Саарал"];
+const COLSWATCH=["transparent","#FBEFAE","#CFEBD0","#D3E4F7","#F6D9E4","#F8DFC4","#F7CFCB","#E4D8F2","#CDE9EA","#E2EDBF","#E4E4E4"];
+let MK=[], vsCur=null, MSTORE="ls";   // "idb" when IndexedDB is usable
+
+const mkKey=(b,c,v)=>b+":"+c+":"+v;
+
+/* IndexedDB is the store of record. Chrome blocks it on file:// origins, which is
+   exactly how the standalone build is opened, so localStorage remains a working
+   fallback rather than an error path. */
+async function mkInit(){
+  let legacy=store.get("marks",null);
+  try{
+    await idb();
+    MSTORE="idb";
+    MK=await idbOp("readonly",st=>st.getAll(),"marks") || [];
+    if(legacy){                                   // one-time migration
+      const items=Array.isArray(legacy)
+        ? legacy.map(a=>({b:a[0],c:a[1],v:a[2],bm:true,col:0,note:"",tags:[],
+                          t:Date.now(),m:Date.now()}))
+        : (legacy.items||[]);
+      let moved=0;
+      for(const it of items){
+        it.k=mkKey(it.b,it.c,it.v);
+        if(!MK.some(x=>x.k===it.k)){ MK.push(it); await mkPut(it); moved++ }
+      }
+      store.set("marks.bak",legacy); localStorage.removeItem("mnbible.marks");
+      if(moved) console.log("migrated",moved,"markers to IndexedDB");
+    }
+  }catch(e){
+    MSTORE="ls";
+    if(Array.isArray(legacy))
+      MK=legacy.map(a=>({k:mkKey(a[0],a[1],a[2]),b:a[0],c:a[1],v:a[2],bm:true,col:0,
+                         note:"",tags:[],t:Date.now(),m:Date.now()}));
+    else MK=(legacy&&legacy.items)||[];
+    MK.forEach(x=>{ if(!x.k) x.k=mkKey(x.b,x.c,x.v) });
+  }
+  MK.forEach(x=>{ if(x.del===undefined) x.del=0 });
+}
+async function mkPut(rec){
+  if(MSTORE==="idb"){
+    try{ await idbOp("readwrite",st=>st.put(rec),"marks"); return true }
+    catch(e){ toast("Хадгалж чадсангүй"); return false }
+  }
+  try{ store.set("marks",{ver:3,items:MK}); return true }
+  catch(e){ toast("Хадгалах зай дүүрсэн байна"); return false }
+}
+async function mkDrop(rec){
+  if(MSTORE==="idb"){
+    try{ await idbOp("readwrite",st=>st.delete(rec.k),"marks") }catch(e){}
+  } else { try{ store.set("marks",{ver:3,items:MK}) }catch(e){} }
+}
+/* The colours carry whatever meaning the reader gives them. One person marks
+   promises yellow, another marks commands yellow - so the names are theirs to set,
+   and the defaults below are only the colours' own names, not categories. */
+function colLabel(i){
+  const custom=store.get("colnames",[])||[];
+  return (custom[i-1]||"").trim() || COLNAMES[i] || "";
+}
+function colIsNamed(i){
+  const custom=store.get("colnames",[])||[];
+  return !!(custom[i-1]||"").trim();
+}
+function buildColNames(){
+  const box=$("#colNames"); if(!box) return;
+  const custom=store.get("colnames",[])||[];
+  box.innerHTML=COLSWATCH.slice(1).map((c,k)=>
+    '<div class="cn"><i style="background:'+c+'"></i>'
+    +'<input type="text" id="colName'+(k+1)+'" name="colName'+(k+1)+'" '
+    +'data-cn="'+(k+1)+'" maxlength="24" autocomplete="off" spellcheck="false" '
+    +'aria-label="'+esc(COLNAMES[k+1])+'" value="'+esc(custom[k]||"")+'" '
+    +'placeholder="'+esc(COLNAMES[k+1])+'"></div>').join("");
+}
+function mkLoad(){ return MK }
+function mkLive(){ return MK.filter(x=>!x.del) }
+function mkTrash(){ return MK.filter(x=>x.del) }
+function mkFind(b,c,v){ return MK.find(x=>x.k===mkKey(b,c,v)) }
+function mkEmpty(x){ return !x.bm && !x.col && !x.note.trim() && !x.tags.length }
+
+function mkUpsert(b,c,v,patch){
+  let x=mkFind(b,c,v);
+  if(!x){
+    x={k:mkKey(b,c,v),b,c,v,bm:false,col:0,note:"",tags:[],del:0,
+       t:Date.now(),m:Date.now()};
+    MK.push(x);
+  }
+  Object.assign(x,patch,{m:Date.now()});
+  if(x.del&&(x.bm||x.col||x.note.trim()||x.tags.length)) x.del=0;   // editing restores
+  if(mkEmpty(x)&&!x.del) x.del=Date.now();                          // soft delete
+  mkPut(x); render(v);
+}
+function mkSoftDelete(b,c,v){
+  const x=mkFind(b,c,v); if(!x||x.del) return;
+  x.del=Date.now(); x.m=Date.now(); mkPut(x); render(v);
+}
+function mkRestore(k){
+  const x=MK.find(y=>y.k===k); if(!x) return;
+  x.del=0; x.m=Date.now();
+  if(mkEmpty(x)) x.bm=true;            // nothing left to show - restore as a bookmark
+  mkPut(x); render();
+}
+async function mkPurge(k){
+  const i=MK.findIndex(y=>y.k===k); if(i<0) return;
+  const x=MK[i]; MK.splice(i,1); await mkDrop(x);
+}
+async function mkPurgeAll(){
+  const gone=mkTrash();
+  MK=MK.filter(x=>!x.del);
+  if(MSTORE==="idb"){ for(const x of gone) await mkDrop(x) }
+  else { try{ store.set("marks",{ver:3,items:MK}) }catch(e){} }
+  return gone.length;
+}
+function mkText(x){
+  const row=B[x.b]&&B[x.b].ch[x.c]&&B[x.b].ch[x.c].find(r=>r[0]===x.v);
+  return row?verseText(row[1]):"";
+}
+function mkRef(x){ return B[x.b].mn+" "+(x.c+1)+":"+x.v }
+function mkAgo(ts){
+  const d=Math.floor((Date.now()-ts)/86400000);
+  return d<1?"өнөөдөр":d===1?"өчигдөр":d+" хоногийн өмнө";
+}
+
+/* ---- verse editor ---- *//* ---- verse editor ---- */
+function openVerse(v){
+  let x=mkFind(bi,ci,v); if(x&&x.del) x=null;
+  x=x||{bm:false,col:0,note:"",tags:[]};
+  vsCur={b:bi,c:ci,v};
+  $("#vsRef").textContent=refOf(bi,ci,v);
+  const row=B[bi].ch[ci].find(r=>r[0]===v);
+  $("#vsText").textContent=row?verseText(row[1]):"";
+  $$("#shVerse .swatches button").forEach(btn=>
+    btn.setAttribute("aria-pressed", +btn.dataset.col===(x.col||0)));
+  vsColCaption(x.col||0);
+  $("#vsBm").textContent=x.bm?"Хасах":"Нэмэх";
+  $("#vsBm").setAttribute("aria-pressed",!!x.bm);
+  $("#vsNote").value=x.note||"";
+  $("#vsTags").value=(x.tags||[]).join(", ");
+  openSheet("#shVerse");
+}
+function vsColCaption(c){
+  let el=$("#vsColLab");
+  if(!el){
+    el=document.createElement("div");
+    el.className="lab"; el.id="vsColLab";
+    $("#vsSwatches").appendChild(el);
+  }
+  el.textContent = c ? colLabel(c) : "";
+}
+function vsCommit(extra){
+  if(!vsCur) return;
+  const tags=$("#vsTags").value.split(",").map(t=>t.trim()).filter(Boolean).slice(0,8);
+  mkUpsert(vsCur.b,vsCur.c,vsCur.v,Object.assign({note:$("#vsNote").value.trim(),tags},extra||{}));
+}
+
+/* ---- manager ---- */
+let mkFilter="all", mkTag="", mkCol=0;
+function mkAllTags(){
+  const c={};
+  for(const x of mkLive()) for(const t of x.tags||[]) c[t]=(c[t]||0)+1;
+  return Object.keys(c).sort((a,b)=>c[b]-c[a]).slice(0,14);
+}
+function buildMarks(){
+  const trashN=mkTrash().length;
+  const list=mkFilter==="trash"?mkTrash():mkLive();
+  const kinds=[["all","Бүгд"],["bm","🔖 Тэмдэглэл"],["hl","🎨 Өнгө"],["note","📝 Тэмдэглэсэн"],
+               ["trash","🗑 Хогийн сав"+(trashN?" ("+trashN+")":"")]];
+  $("#mkKind").innerHTML=kinds.map(([k,l])=>
+    '<button data-k="'+k+'" aria-pressed="'+(mkFilter===k)+'">'+l+"</button>").join("");
+  const used=new Set(mkLive().map(x=>x.col).filter(Boolean));
+  const cols=[...used].sort((a,b)=>a-b);
+  const tags=mkAllTags();
+  $("#mkTags").innerHTML=
+    cols.map(c=>'<button data-col="'+c+'" aria-pressed="'+(mkCol===c)+'" '
+      +'style="border-color:'+COLSWATCH[c]+';border-width:2px">'
+      +'<span style="display:inline-block;width:9px;height:9px;border-radius:50%;'
+      +'background:'+COLSWATCH[c]+';margin-inline-end:6px"></span>'
+      +esc(colLabel(c))+"</button>").join("")
+    +(tags.length
+      ? tags.map(t=>'<button data-t="'+esc(t)+'" aria-pressed="'+(mkTag===t)+'">#'+esc(t)+"</button>").join("")
+      : "");
+  const q=norm($("#mq").value||"");
+  let rows=list.filter(x=>{
+    if(mkFilter==="trash") { /* everything in the bin */ }
+    else if(mkFilter==="bm"&&!x.bm) return false;
+    if(mkFilter==="hl"&&!x.col) return false;
+    if(mkFilter==="note"&&!(x.note||"").trim()) return false;
+    if(mkTag&&!(x.tags||[]).includes(mkTag)) return false;
+    if(mkCol&&x.col!==mkCol) return false;
+    if(q){
+      const hay=norm(mkRef(x)+" "+(x.note||"")+" "+(x.tags||[]).join(" ")+" "+mkText(x));
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  rows.sort((a,b)=>a.b-b.b||a.c-b.c||a.v-b.v);
+  // Always show every tool. A reader deciding whether this app is worth keeping
+  // should be able to see what it can do; an empty panel reads as an empty app.
+  // Each button says plainly when there is nothing for it to act on.
+  $("#mkToolbar").style.display="flex";
+  $("#mkCount").textContent=rows.length+" / "+list.length+" бичлэг"
+    +(MSTORE==="idb"?"":"  ·  түр санах ой");
+  if(!list.length){
+    $("#marks").innerHTML= mkFilter==="trash"
+      ? '<div class="empty">Хогийн сав хоосон.</div>'
+      : '<div class="empty">Тэмдэглэл алга.<br>'
+        +'Шүлгийн дугаар дээр товшиж өнгө, тэмдэглэл, шошго нэмнэ.</div>';
+    return;
+  }
+  if(!rows.length){ $("#marks").innerHTML='<div class="empty">Тохирох бичлэг алга.</div>'; return }
+  const SW=COLSWATCH;
+  const trash=mkFilter==="trash";
+  $("#marks").innerHTML=rows.map(x=>{
+    const t=mkText(x);
+    return '<div class="mrow"'+(trash?'':' data-b="'+x.b+'" data-c="'+x.c+'" data-v="'+x.v+'"')+'>'
+      +'<span class="dot" style="background:'+SW[x.col||0]+'"></span><div class="bd">'
+      +"<b>"+esc(mkRef(x))+(x.bm?" 🔖":"")
+      +(x.col&&colIsNamed(x.col)?'  <span style="font-weight:400;opacity:.8">'
+        +esc(colLabel(x.col))+"</span>":"")+"</b>"
+      +"<p>"+esc(t.length>140?t.slice(0,140)+"…":t)+"</p>"
+      +((x.note||"").trim()?'<div class="note">'+esc(x.note)+"</div>":"")
+      +((x.tags||[]).length?'<div class="tg">'+esc(x.tags.map(y=>"#"+y).join("  "))+"</div>":"")
+      +(trash?'<div class="tools" style="margin:8px 0 0">'
+        +'<button data-restore="'+x.k+'">↩ Сэргээх</button>'
+        +'<button class="danger" data-purge="'+x.k+'">Бүр устгах</button>'
+        +'<span style="align-self:center;font-size:11px;color:var(--muted)">'
+        +esc(mkAgo(x.del))+"</span></div>":"")
+      +"</div></div>";
+  }).join("");
+}
+function mkAsText(){
+  const rows=mkLive().slice().sort((a,b)=>a.b-b.b||a.c-b.c||a.v-b.v);
+  return rows.map(x=>{
+    let o=mkRef(x)+"  ("+B[x.b].en+" "+(x.c+1)+":"+x.v+")\n"+mkText(x);
+    const e=E?enText(x.b,x.c,x.v):"";
+    if(e) o+="\nKJV: "+e;
+    if((x.note||"").trim()) o+="\n>> "+x.note;
+    if((x.tags||[]).length) o+="\n#"+x.tags.join(" #");
+    return o;
+  }).join("\n\n")+"\n\n["+VERSION+"]";
+}
+
+function toast(m){
+  const t=$("#toast");
+  t.textContent=m; t.classList.remove("act"); t.classList.add("show");
+  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),1800);
+}
+/* An action the reader can undo in place beats a confirmation dialog they would
+   dismiss without reading - and beats making them go looking in the bin. */
+async function copy(text){
+  try{await navigator.clipboard.writeText(text);toast("Хуулагдлаа")}
+  catch(e){const a=document.createElement("textarea");a.value=text;a.style.position="fixed";
+    a.style.opacity="0";document.body.appendChild(a);a.select();
+    try{document.execCommand("copy");toast("Хуулагдлаа")}catch(_){toast("Хуулж чадсангүй")}
+    a.remove()}
+}
+
+function buildStamp(){
+  let tv=0;for(const b of B)for(const c of b.ch)tv+=c.length;
+  $("#stamp").innerHTML=["Хувилбар: "+VERSION,"Огноо: "+BUILT,
+    "Ном: "+B.length,"Бүлэг: "+B.reduce((s,b)=>s+b.ch.length,0),
+    "Шүлэг: "+tv,
+    "Англи: "+(E?"суулгасан":"үгүй"),
+    "Судалгааны багц: "+(S?"суулгасан":"үгүй"),
+    "Тэмдэглэл: "+mkLive().length+" (сав "+mkTrash().length+")",
+    "Хадгалалт: "+(MSTORE==="idb"?"IndexedDB":"localStorage")].join("<br>");
+}
+
+function applyPrefs(){
+  const s=store.get("scale",1),th=store.get("theme","day"),fmt=store.get("fmt",1);
+  const supw=store.get("supw",0);
+  document.documentElement.style.setProperty("--scale",s);
+  document.documentElement.dataset.theme=th;
+  const dim=store.get("dim",0);
+  document.documentElement.dataset.dim=dim?"1":"0";
+  const dr=$("#dimRow");
+  if(dr) dr.style.display = th==="night" ? "flex" : "none";
+  const d0=$("#dimOff"), d1=$("#dimOn");
+  if(d0) d0.setAttribute("aria-pressed",!dim);
+  if(d1) d1.setAttribute("aria-pressed",!!dim);
+  document.documentElement.dataset.plain=fmt?"0":"1";
+  document.documentElement.dataset.supw=supw?"1":"0";
+  $("#fVal").textContent=Math.round(s*100)+"%";
+  $("#thDay").setAttribute("aria-pressed",th==="day");
+  $("#thNight").setAttribute("aria-pressed",th==="night");
+  $("#fmtOn").setAttribute("aria-pressed",!!fmt);
+  $("#fmtOff").setAttribute("aria-pressed",!fmt);
+  $("#swNorm").setAttribute("aria-pressed",!supw);
+  $("#swBold").setAttribute("aria-pressed",!!supw);
+}
+function setScale(d){
+  const s=Math.min(1.8,Math.max(.8,Math.round((store.get("scale",1)+d)*100)/100));
+  store.set("scale",s);applyPrefs();
+}
+
+function openSheet(id){closeAll();const el=$(id);el.classList.add("open");el.setAttribute("aria-hidden","false")}
+document.addEventListener("click",e=>{
+  if(e.target.closest("[data-close]")) closeAll();
+});
+function closeAll(){$$(".sheet").forEach(s=>{
+  s.classList.remove("open");s.setAttribute("aria-hidden","true")});}
+
+$("#btnBooks").onclick=()=>{bookTest=bi<OT?"ot":"nt";buildBooks();openSheet("#shBooks")};
+$("#curRef").onclick=()=>{buildChaps(bi);openSheet("#shChap")};
+$("#tabOT").onclick=()=>{bookTest="ot";buildBooks()};
+$("#tabNT").onclick=()=>{bookTest="nt";buildBooks()};
+$("#sortTrad").onclick=()=>{bookSort="trad";store.set("bookSort","trad");buildBooks()};
+$("#sortAlpha").onclick=()=>{bookSort="alpha";store.set("bookSort","alpha");buildBooks()};
+$("#bookList").onclick=e=>{
+  const b=e.target.closest("[data-b]");
+  if(b){ buildChaps(+b.dataset.b); openSheet("#shChap") }
+};
+$("#chapList").onclick=e=>{
+  const c=e.target.closest("[data-c]");
+  if(c) go(pendBook,+c.dataset.c);
+};
+$("#chapBack").onclick=()=>{
+  bookTest=pendBook<OT?"ot":"nt";     // come back to the testament you were browsing
+  buildBooks(); openSheet("#shBooks");
+};
+$("#btnHist").onclick=()=>{histView="live";topicKey="";buildHist();openSheet("#shHist")};
+$("#histBack").onclick=()=>{buildBooks();openSheet("#shBooks")};
+function histClearLabel(){
+  const b=$("#histClear"); if(!b) return;
+  const tools=$("#histTools");
+  if(histView==="topic"){ tools.style.display="none"; return }
+  tools.style.display="flex";
+  b.innerHTML = histView==="trash"
+    ? TRASH_SVG+" Хогийн савыг хоослох"
+    : TRASH_SVG+" Түүхийг цэвэрлэх";
+}
+$("#histClear").onclick=()=>{
+  if(histView==="topic"){ toast("Сэдэвчилсэн жагсаалтыг устгах боломжгүй"); return }
+  if(histView==="trash"){
+    const n=histBin().length;
+    if(!n){ toast("Хогийн сав хоосон"); return }
+    if(!confirm(n+" бичлэгийг бүрмөсөн устгах уу?")) return;
+    histPurgeBin(); buildHist(); toast(n+" бичлэг устгагдлаа");
+    return;
+  }
+  const live=histLoad();
+  if(!live.length){ toast("Түүх хоосон"); return }
+  if(!confirm(live.length+" бичлэгийг хогийн саванд хийх үү?")) return;
+  const now=Date.now();
+  for(const e of live) histSet(e[0],e[1],now);
+  buildHist(); toast("Хогийн саванд орлоо");
+};
+function histRowRemove(r){
+  // Ask before binning. The bin recovers a considered decision; the confirmation
+  // guards against the slip. An undo toast would be a third mechanism doing the
+  // job the confirmation already does.
+  const b=+r.dataset.b, c=+r.dataset.c;
+  const label=B[b]?B[b].mn+" "+(c+1):"";
+  if(!confirm("«"+label+"» — хогийн саванд хийх үү?")){ r.style.transform=""; return }
+  r.classList.add("gone");
+  setTimeout(()=>{ histSet(b,c,Date.now()); buildHist() },190);
+}
+$("#histTabs").onclick=e=>{
+  const b=e.target.closest("[data-hv]"); if(!b) return;
+  histView=b.dataset.hv; topicKey=""; buildHist();
+};
+$("#topicTabs").onclick=e=>{
+  const b=e.target.closest("[data-tp]"); if(!b) return;
+  if(histView==="topic"&&topicKey===b.dataset.tp){ histView="live"; topicKey="" }
+  else { histView="topic"; topicKey=b.dataset.tp }
+  buildHist();
+};
+$("#histList").onclick=e=>{
+  const tp=e.target.closest(".tpc");
+  if(tp){ go(+tp.dataset.b,+tp.dataset.c,+tp.dataset.v); return }
+  const r=e.target.closest(".hrow"); if(!r||r._swiped) return;
+  if(e.target.closest("[data-hres]")){
+    histSet(+r.dataset.b,+r.dataset.c,0); buildHist(); toast("Сэргээгдлээ"); return;
+  }
+  if(e.target.closest("[data-hpur]")){
+    if(!confirm("Энэ бичлэгийг бүрмөсөн устгах уу?")) return;
+    histPurgeOne(+r.dataset.b,+r.dataset.c); buildHist(); toast("Устгагдлаа"); return;
+  }
+  if(histView==="trash") return;
+  go(+r.dataset.b,+r.dataset.c,r.dataset.v?+r.dataset.v:undefined);
+};
+/* desktop: right-click to bin a row */
+$("#histList").addEventListener("contextmenu",e=>{
+  const r=e.target.closest(".hrow");
+  if(!r||histView!=="live") return;
+  e.preventDefault(); histRowRemove(r);
+});
+/* mobile: swipe left to bin a row */
+(function(){
+  let row=null,x0=0,y0=0,dx=0,active=false;
+  const list=$("#histList");
+  list.addEventListener("touchstart",e=>{
+    if(histView==="trash") return;
+    if(histView!=="live") return;
+    row=e.target.closest(".hrow"); if(!row) return;
+    const t=e.touches[0]; x0=t.clientX; y0=t.clientY; dx=0; active=false;
+    row._swiped=false;
+  },{passive:true});
+  list.addEventListener("touchmove",e=>{
+    if(!row) return;
+    const t=e.touches[0];
+    dx=t.clientX-x0;
+    const dy=Math.abs(t.clientY-y0);
+    if(!active && dx<-12 && dy<24) active=true;      // horizontal intent
+    if(!active) return;
+    const off=Math.min(0,dx);
+    row.style.transition="none";
+    row.style.transform="translateX("+off+"px)";
+  },{passive:true});
+  list.addEventListener("touchend",()=>{
+    if(!row) return;
+    const r=row; row=null;
+    r.style.transition="";
+    r.style.transform="";
+    if(active && dx<-70){ r._swiped=true; histRowRemove(r) }
+  },{passive:true});
+})();
+$("#btnSearch").onclick=()=>{concForm="";runQuery();openSheet("#shSearch");$("#q").focus()};
+$("#btnMarks").onclick=()=>{buildMarks();openSheet("#shMarks")};
+$("#btnSet").onclick=()=>openSheet("#shSet");
+$("#prev").onclick=()=>step(-1);
+$("#next").onclick=()=>step(1);
+const RE_STRONG=/^\s*([HGhg])\s*0*(\d{1,4})\s*$/;
+function strongRef(raw){
+  const m=RE_STRONG.exec(raw||"");
+  return m ? m[1].toUpperCase()+m[2] : null;
+}
+
+/* One box. The query decides what it is:
+     "Гал 2:20" / "Gal 2:20"  -> the passage
+     "H127" / "G26"           -> the lexicon entry
+     a word                   -> its inflected forms and every verse containing them
+     several words            -> that phrase, searched literally
+   The reader should not have to know which of those they are asking for. */
+let lastQuery="";
+function qClear(){
+  $("#hits").innerHTML=""; $("#conc").innerHTML="";
+  $("#qlang").textContent=""; $("#qinfo").style.display="none";
+}
+function sect(label,extra){
+  return '<div class="sect">'+esc(label)
+    +(extra?'<span class="more">'+extra+"</span>":"")+"</div>";
+}
+function qSuggest(){
+  const ex=["Есүс","хайр","Гал 2:20","John 3:16","H127"];
+  return sect("Жишээ")+'<div class="forms">'
+    +ex.map(x=>'<button data-q="'+esc(x)+'">'+esc(x)+"</button>").join("")+"</div>";
+}
+function phraseSearch(raw,lang){
+  const q=norm(raw), out=[]; let n=0;
+  for(let b=0;b<66;b++)for(let c=0;c<B[b].ch.length;c++)for(const [v,runs] of B[b].ch[c]){
+    const t=lang==="en"?enText(b,c,v):verseText(runs);
+    if(!t) continue;
+    const at=norm(t).indexOf(q);
+    if(at<0) continue;
+    n++;
+    if(out.length<250) out.push([b,c,v,t,at,raw.length]);
+  }
+  return {rows:out,total:n};
+}
+function occHTML(rows){
+  return rows.map(([b,c,v,t,at,len])=>
+    '<div class="cocc" data-b="'+b+'" data-c="'+c+'" data-v="'+v+'"><b>'
+    +esc(refOf(b,c,v))+"</b><span>"+concSnippet(t,at,len)+"</span></div>").join("");
+}
+async function runQuery(){
+  const raw=$("#q").value.trim();
+  lastQuery=raw;
+  qClear();
+  const box=$("#hits");
+  if(!raw){ box.innerHTML=qSuggest(); return }
+
+  // --- a reference wins outright ---
+  const r=parseRef(raw);
+  if(r){
+    if(r.hits.length===1){
+      const bk=B[r.hits[0]];
+      if(r.ch<1||r.ch>bk.ch.length){
+        box.innerHTML=sect("Эшлэл")+'<div class="chead">'+esc(bk.mn)+" номд "+r.ch
+          +"-р бүлэг байхгүй ("+bk.ch.length+" бүлэгтэй).</div>";
+        return;
+      }
+      const rows=bk.ch[r.ch-1];
+      if(r.vs&&!rows.some(x=>x[0]===r.vs)){
+        // do not quietly answer with verse 1 - say what the chapter actually has
+        box.innerHTML=sect("Эшлэл")+'<div class="chead">'+esc(bk.mn)+" "+r.ch
+          +" бүлэгт "+r.vs+"-р шүлэг байхгүй ("+rows.length+" шүлэгтэй).</div>"
+          +refCard(r.hits[0],r.ch,null);
+        return;
+      }
+      box.innerHTML=sect("Эшлэл")+refCard(r.hits[0],r.ch,r.vs);
+      return;
+    }
+    box.innerHTML=sect("Аль ном бэ?")+'<div class="forms">'
+      +r.hits.slice(0,12).map(i=>'<button data-rb="'+i+'" data-rc="'+r.ch+'"'
+        +(r.vs?' data-rv="'+r.vs+'"':"")+'>'+esc(B[i].mn)+" · "+esc(B[i].en)
+        +"</button>").join("")+"</div>";
+    return;
+  }
+
+  // --- a Strong's number goes straight to the lexicon ---
+  const sn=strongRef(raw);
+  if(sn){
+    box.innerHTML=sect("Лексикон")+(S
+      ? (S[sn]?strEntryHTML(sn):'<div class="chead">'+esc(sn)+" олдсонгүй.</div>")
+      : '<div class="chead">Судалгааны багцыг татвал энэ дугаарын утга харагдана '
+        +"(Тохиргоо).</div>");
+    return;
+  }
+
+  if(raw.length<2){ box.innerHTML=qSuggest(); return }
+  const lang=/[A-Za-z]/.test(raw)?"en":"mn";
+  if(lang==="en"&&!E){
+    box.innerHTML='<div class="chead">Англи үгээр хайхын тулд эхлээд Англи хувилбарыг '
+      +"татна уу (Тохиргоо).</div>";
+    return;
+  }
+
+  // --- several words: search the phrase literally ---
+  if(/\s/.test(raw)){
+    const {rows,total}=phraseSearch(raw,lang);
+    box.innerHTML=total
+      ? sect("Хэллэг", total.toLocaleString()+" шүлэг"
+          +(total>rows.length?" · эхний "+rows.length:""))+occHTML(rows)
+      : '<div class="chead">«'+esc(raw)+"» олдсонгүй.</div>";
+    return;
+  }
+
+  // --- a single word: forms, then every verse that uses them ---
+  if(!CIDX[lang]){
+    box.innerHTML='<div class="chead">Үгсийн жагсаалтыг бэлдэж байна… '
+      +'<b id="cpc">0%</b></div>';
+    await buildIndexAsync(lang,p=>{ const el=$("#cpc"); if(el) el.textContent=p+"%" });
+    if($("#q").value.trim()!==raw) return;      // the reader moved on
+  }
+  const prefix=raw.toLowerCase();
+  const forms=concFormsFor(lang,prefix);
+  let html="";
+  if(forms.length){
+    const total=forms.reduce((a,f)=>a+f[1],0);
+    const picked=concForm&&forms.some(f=>f[0]===concForm)?[concForm]:forms.map(f=>f[0]);
+    const {rows,total:occ}=concOccurrences(lang,picked,250);
+    if(forms.length>1)
+      html+=sect("Үгийн хэлбэр", forms.length+" хэлбэр · "+total.toLocaleString()+" удаа")
+        +'<div class="forms">'+forms.slice(0,40).map(([w,n])=>
+          '<button data-f="'+esc(w)+'" aria-pressed="'+(concForm===w)+'">'+esc(w)
+          +" <b>"+n+"</b></button>").join("")+"</div>";
+    html+=sect("Шүлгүүд", occ.toLocaleString()+" шүлэг"
+      +(occ>rows.length?" · эхний "+rows.length:""))+occHTML(rows);
+  } else {
+    html='<div class="chead">«'+esc(raw)+"» олдсонгүй.</div>";
+  }
+  // --- if the study pack is present, offer the original-language entries too ---
+  if(S&&lang==="en"){
+    const hits=(strIndex()[prefix]||[]).slice(0,6);
+    if(hits.length)
+      html+=sect("Лексикон", hits.length+" бичлэг")+'<div class="forms">'
+        +hits.map(k=>'<button data-s="'+k+'">'+k+" · "+esc(S[k][1]||"")+"</button>").join("")
+        +"</div>";
+  }
+  box.innerHTML=html;
+}
+$("#hits").addEventListener("click",e=>{
+  const qb=e.target.closest("[data-q]");
+  if(qb){ $("#q").value=qb.dataset.q; concForm=""; runQuery(); return }
+  const f=e.target.closest("[data-f]");
+  if(f){ concForm = concForm===f.dataset.f ? "" : f.dataset.f; runQuery(); return }
+  const sx=e.target.closest("[data-s]");
+  if(sx){ $("#q").value=sx.dataset.s; concForm=""; runQuery(); return }
+});
+$("#q").oninput=()=>{clearTimeout(stimer);stimer=setTimeout(()=>{concForm="";runQuery()},260)};
+document.addEventListener("click",e=>{
+  const rc=e.target.closest(".refcard");
+  if(rc){ go(+rc.dataset.b,+rc.dataset.c,rc.dataset.v?+rc.dataset.v:undefined); return }
+  const ro=e.target.closest("[data-rb]");
+  if(ro){
+    const b=+ro.dataset.rb, c=+ro.dataset.rc;
+    if(c>=1&&c<=B[b].ch.length) go(b,c-1,ro.dataset.rv?+ro.dataset.rv:undefined);
+    else toast(B[b].mn+" — "+B[b].ch.length+" бүлэгтэй");
+    return;
+  }
+  const h=e.target.closest(".hit");
+  if(h)go(+h.dataset.b,+h.dataset.c,+h.dataset.v);
+});
+$("#q").addEventListener("keydown",e=>{
+  if(e.key!=="Enter") return;
+  const r=parseRef($("#q").value);
+  if(r&&r.hits.length===1&&r.ch>=1&&r.ch<=B[r.hits[0]].ch.length){
+    e.preventDefault(); go(r.hits[0],r.ch-1,r.vs||undefined);
+  }
+});
+/* tap the verse number, or double-tap the verse, to open the verse editor */
+$("#text").addEventListener("click",e=>{
+  const wd=e.target.closest("p.en w");
+  if(wd){ openStrong(wd.dataset.s.split(","), wd.textContent); return }
+  const num=e.target.closest(".v>b");
+  if(num){ openVerse(+num.parentElement.dataset.v) }
+});
+$("#text").ondblclick=e=>{const p=e.target.closest(".v"); if(p) openVerse(+p.dataset.v)};
+$("#text").addEventListener("contextmenu",e=>{
+  const p=e.target.closest(".v"); if(!p) return;
+  e.preventDefault(); openVerse(+p.dataset.v);
+});
+
+$$("#shVerse .swatches button").forEach(btn=>{
+  btn.onclick=()=>{
+    const c=+btn.dataset.col;
+    $$("#shVerse .swatches button").forEach(o=>o.setAttribute("aria-pressed",o===btn));
+    vsCommit({col:c});
+  };
+});
+$("#vsBm").onclick=()=>{
+  const cur=$("#vsBm").getAttribute("aria-pressed")==="true";
+  $("#vsBm").setAttribute("aria-pressed",!cur);
+  $("#vsBm").textContent=!cur?"Хасах":"Нэмэх";
+  vsCommit({bm:!cur});
+};
+$("#vsSave").onclick=()=>{ vsCommit(); toast("Хадгаллаа"); closeAll() };
+$("#vsCopy").onclick=()=>{
+  if(!vsCur) return;
+  const row=B[vsCur.b].ch[vsCur.c].find(r=>r[0]===vsCur.v);
+  let out=refOf(vsCur.b,vsCur.c,vsCur.v)+"\n"+verseText(row[1]);
+  const e=E?enText(vsCur.b,vsCur.c,vsCur.v):"";
+  if(e&&store.get("en",0)) out+="\nKJV: "+e;
+  const n=$("#vsNote").value.trim();
+  if(n) out+="\n>> "+n;
+  copy(out+"\n["+VERSION+"]");
+};
+$("#vsDel").onclick=()=>{
+  if(!vsCur) return;
+  mkSoftDelete(vsCur.b,vsCur.c,vsCur.v);
+  closeAll(); toast("Хогийн саванд орлоо");
+};
+
+$("#mq").oninput=()=>buildMarks();
+$("#mkKind").onclick=e=>{
+  const b=e.target.closest("[data-k]"); if(!b) return;
+  mkFilter=b.dataset.k; buildMarks();
+};
+$("#mkTags").onclick=e=>{
+  const c=e.target.closest("[data-col]");
+  if(c){ const n=+c.dataset.col; mkCol=(mkCol===n)?0:n; buildMarks(); return }
+  const b=e.target.closest("[data-t]"); if(!b) return;
+  mkTag=(mkTag===b.dataset.t)?"":b.dataset.t; buildMarks();
+};
+$("#marks").addEventListener("click",async e=>{
+  const rb=e.target.closest("[data-restore]");
+  if(rb){ mkRestore(rb.dataset.restore); buildMarks(); toast("Сэргээгдлээ"); return }
+  const pb=e.target.closest("[data-purge]");
+  if(pb){
+    if(!confirm("Энэ бичлэгийг бүрмөсөн устгах уу?")) return;
+    await mkPurge(pb.dataset.purge); buildMarks(); toast("Бүрмөсөн устгагдлаа"); return;
+  }
+  const r=e.target.closest(".mrow"); if(!r||!r.dataset.b) return;
+  go(+r.dataset.b,+r.dataset.c,+r.dataset.v);
+});
+$("#mkCopyTxt").onclick=()=>{
+  if(!mkLoad().length){ toast("Тэмдэглэл алга"); return }
+  copy(mkAsText());
+};
+$("#mkExport").onclick=()=>{
+  if(!MK.length){ toast("Нөөшлөх тэмдэглэл алга"); return }
+  const data=JSON.stringify({app:"mnbible",ver:3,exported:new Date().toISOString(),
+    store:MSTORE,items:MK});
+  try{
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(new Blob([data],{type:"application/json"}));
+    a.download="mnbible-marks-"+new Date().toISOString().slice(0,10)+".json";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+    toast("Файл бэлэн");
+  }catch(err){ copy(data); toast("Хуулагдлаа") }
+};
+$("#mkImport").onclick=()=>{
+  const inp=document.createElement("input");
+  inp.type="file"; inp.accept="application/json,.json";
+  inp.onchange=()=>{
+    const f=inp.files&&inp.files[0]; if(!f) return;
+    const rd=new FileReader();
+    rd.onload=()=>{
+      try{
+        const d=JSON.parse(rd.result);
+        const items=Array.isArray(d)?d:(d.items||[]);
+        if(!Array.isArray(items)) throw new Error("буруу файл");
+        let added=0;
+        for(const it of items){
+          if(typeof it.b!=="number"||typeof it.c!=="number"||typeof it.v!=="number") continue;
+          const cur=mkFind(it.b,it.c,it.v);
+          const clean={k:mkKey(it.b,it.c,it.v),b:it.b,c:it.c,v:it.v,bm:!!it.bm,
+            col:Math.min(10,Math.max(0,+it.col||0)),note:String(it.note||""),
+            tags:Array.isArray(it.tags)?it.tags.slice(0,8):[],del:+it.del||0,
+            t:it.t||Date.now(),m:it.m||Date.now()};
+          if(!cur){ MK.push(clean); mkPut(clean); added++ }
+          else if((clean.m||0)>(cur.m||0)){ Object.assign(cur,clean); mkPut(cur); added++ }
+        }
+        buildMarks(); render();
+        toast(added+" бичлэг сэргээгдлээ");
+      }catch(err){ toast("Уншиж чадсангүй: "+err.message) }
+    };
+    rd.readAsText(f);
+  };
+  inp.click();
+};
+$("#mkPurge").onclick=async()=>{
+  const n=mkTrash().length;
+  if(!n){ toast("Хогийн сав хоосон"); return }
+  if(!confirm(n+" бичлэгийг бүрмөсөн устгах уу? Үүнийг буцаах боломжгүй.")) return;
+  await mkPurgeAll(); buildMarks(); render(); toast(n+" бичлэг устгагдлаа");
+};
+$("#mkClear").onclick=()=>{
+  const live=mkLive();
+  if(!live.length){ toast("Тэмдэглэл алга"); return }
+  if(!confirm(live.length+" тэмдэглэлийг хогийн саванд хийх үү?")) return;
+  const now=Date.now();
+  for(const x of live){ x.del=now; x.m=now; mkPut(x) }
+  buildMarks(); render(); toast("Хогийн саванд орлоо");
+};
+$("#copyStamp").onclick=()=>copy($("#stamp").innerText);
+$("#instTabs").onclick=e=>{
+  const b=e.target.closest("[data-it]"); if(!b) return;
+  instTab=b.dataset.it; buildInstall();
+};
+$("#instCopy").onclick=()=>copy(installPlainText());
+$("#colNames").addEventListener("input",e=>{
+  const i=e.target.closest("[data-cn]"); if(!i) return;
+  const custom=(store.get("colnames",[])||[]).slice();
+  while(custom.length<10) custom.push("");
+  custom[+i.dataset.cn-1]=i.value.slice(0,24);
+  store.set("colnames",custom);
+});
+$("#colReset").onclick=()=>{
+  const named=(store.get("colnames",[])||[]).filter(x=>(x||"").trim()).length;
+  if(named&&!confirm("Өөрийн өгсөн "+named+" нэрийг устгаж, анхны нэр рүү буцаах уу?"))
+    return;
+  store.set("colnames",[]); buildColNames(); toast("Анхны нэр сэргээгдлээ");
+};
+const APP_URL="https://stanleywoosweeleong.github.io/HOLYBIBLE_MGLKJV/";
+$("#qrCopy").onclick=()=>copy(APP_URL);
+$("#qrBig").onclick=()=>{
+  $("#project").classList.add("on");
+  if(document.documentElement.requestFullscreen)
+    document.documentElement.requestFullscreen().catch(()=>{});
+};
+function projectOff(){
+  $("#project").classList.remove("on");
+  if(document.fullscreenElement&&document.exitFullscreen) document.exitFullscreen().catch(()=>{});
+}
+$("#pjClose").onclick=projectOff;
+$("#project").onclick=e=>{ if(e.target.id!=="pjClose") projectOff() };
+$("#fMinus").onclick=()=>setScale(-.1);
+$("#fPlus").onclick=()=>setScale(.1);
+$("#thDay").onclick=()=>{store.set("theme","day");applyPrefs()};
+$("#thNight").onclick=()=>{store.set("theme","night");applyPrefs()};
+$("#dimOff").onclick=()=>{store.set("dim",0);applyPrefs()};
+$("#dimOn").onclick=()=>{store.set("dim",1);applyPrefs()};
+$("#fmtOn").onclick=()=>{store.set("fmt",1);applyPrefs()};
+$("#fmtOff").onclick=()=>{store.set("fmt",0);applyPrefs()};
+$("#swNorm").onclick=()=>{store.set("supw",0);applyPrefs()};
+$("#swBold").onclick=()=>{store.set("supw",1);applyPrefs()};
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"&&$("#project").classList.contains("on")){ projectOff(); return }
+  if(e.key==="Escape")closeAll();
+  if($$(".sheet.open").length)return;
+  if(e.key==="ArrowRight")step(1);
+  if(e.key==="ArrowLeft")step(-1);
+});
+
+if(DATA_URL && "serviceWorker" in navigator && location.protocol.startsWith("http")){
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("sw.js").then(reg=>{
+      reg.addEventListener("updatefound",()=>{
+        const nw=reg.installing;if(!nw)return;
+        nw.addEventListener("statechange",()=>{
+          if(nw.state==="installed"&&navigator.serviceWorker.controller)
+            $("#update").classList.add("open");
+        });
+      });
+    }).catch(()=>{});
+    let reloading=false;
+    navigator.serviceWorker.addEventListener("controllerchange",()=>{
+      if(reloading)return;reloading=true;location.reload();
+    });
+    $("#doUpdate").onclick=()=>navigator.serviceWorker.getRegistration()
+      .then(r=>r&&r.waiting&&r.waiting.postMessage("skipWaiting"));
+  });
+}
+boot();
+</script>
+</body>
+</html>
