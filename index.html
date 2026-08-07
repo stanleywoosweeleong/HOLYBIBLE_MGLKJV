@@ -30,6 +30,12 @@ html[data-theme="night"]{
   --red:#D98078; --supplied:#7C858E; --here-wash:#2E1D1B; --on-accent:#0E1216;
   --toast-bg:#243040;
 }
+html[data-theme="day"][data-daytone="paper"]{
+  --paper:#FAF4E8; --ink:#2B2620; --muted:#6B6155; --rule:#E6DCC9;
+  --blue:#2E5A82; --blue-deep:#1E3A56; --blue-wash:#F1E8D7;
+  --red:#9B2F2A; --supplied:#7C7466; --here-wash:#F7E6DC;
+  --on-accent:#fff; --toast-bg:#1E3A56;
+}
 html[data-theme="night"][data-dim="1"]{
   --paper:#141210; --ink:#D8CFC0; --muted:#8C857A; --rule:#2A2622;
   --blue:#A9BCC9; --blue-deep:#0E0C0A; --blue-wash:#211D18;
@@ -552,6 +558,10 @@ details.share[open] summary::after{transform:rotate(180deg)}
     <div class="row"><span>Шөнийн горим</span>
       <div class="seg"><button id="thDay" aria-pressed="true">Өдөр</button>
         <button id="thNight" aria-pressed="false">Шөнө</button></div></div>
+    <div class="row" id="dayRow"><span>Өдрийн цаас<br>
+      <small style="color:var(--muted)">Дэлгэцийн хүйтэн гэрлийг зөөлрүүлнэ</small></span>
+      <div class="seg"><button id="tonePlain" aria-pressed="true">Энгийн</button>
+        <button id="tonePaper" aria-pressed="false">Цаасан</button></div></div>
     <div class="row" id="dimRow"><span>Шөнийн гэрэлтэлт<br>
       <small style="color:var(--muted)">Гэрт унтахын өмнө уншихад зөөлөн</small></span>
       <div class="seg"><button id="dimOff" aria-pressed="true">Энгийн</button>
@@ -1680,8 +1690,14 @@ function applyPrefs(){
   document.documentElement.dataset.theme=th;
   const dim=store.get("dim",0);
   document.documentElement.dataset.dim=dim?"1":"0";
-  const dr=$("#dimRow");
+  const tone=store.get("daytone","plain");
+  document.documentElement.dataset.daytone=tone;
+  const dr=$("#dimRow"), dyr=$("#dayRow");
   if(dr) dr.style.display = th==="night" ? "flex" : "none";
+  if(dyr) dyr.style.display = th==="day" ? "flex" : "none";
+  const t0=$("#tonePlain"), t1=$("#tonePaper");
+  if(t0) t0.setAttribute("aria-pressed",tone!=="paper");
+  if(t1) t1.setAttribute("aria-pressed",tone==="paper");
   const d0=$("#dimOff"), d1=$("#dimOn");
   if(d0) d0.setAttribute("aria-pressed",!dim);
   if(d1) d1.setAttribute("aria-pressed",!!dim);
@@ -2165,6 +2181,8 @@ $("#fMinus").onclick=()=>setScale(-.1);
 $("#fPlus").onclick=()=>setScale(.1);
 $("#thDay").onclick=()=>{store.set("theme","day");applyPrefs()};
 $("#thNight").onclick=()=>{store.set("theme","night");applyPrefs()};
+$("#tonePlain").onclick=()=>{store.set("daytone","plain");applyPrefs()};
+$("#tonePaper").onclick=()=>{store.set("daytone","paper");applyPrefs()};
 $("#dimOff").onclick=()=>{store.set("dim",0);applyPrefs()};
 $("#dimOn").onclick=()=>{store.set("dim",1);applyPrefs()};
 $("#fmtOn").onclick=()=>{store.set("fmt",1);applyPrefs()};
